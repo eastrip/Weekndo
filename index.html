@@ -518,6 +518,13 @@
     padding:9px 16px; font-weight:700; font-size:.85rem;
   }
   .primary-btn.full{width:100%; margin-top:4px;}
+  .new-item-box{
+    border:2px solid var(--purple);
+    border-radius:14px;
+    padding:12px;
+    background:#FAF9FF;
+    margin-top:8px;
+  }
   select.select-plain{
     padding:9px; border-radius:10px; border:2px solid var(--line); font-size:.85rem;
   }
@@ -667,44 +674,71 @@
     <div class="tab-panel" data-tab="tasks">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
         <p style="font-size:.8rem; color:var(--ink-soft); margin:0;">Tâches du quotidien (points positifs).</p>
-        <button class="icon-btn" data-jump-to="newTaskLabel" title="Ajouter une tâche" style="flex-shrink:0; margin-left:8px;">⬇️</button>
+        <div style="display:flex; gap:6px; flex-shrink:0; margin-left:8px;">
+          <button class="icon-btn" data-sort-toggle="tasks" title="Inverser le tri">↕️</button>
+          <button class="icon-btn" data-jump-to="newTaskLabel" title="Ajouter une tâche">⬇️</button>
+        </div>
       </div>
       <div id="tasksEditList" class="list-block"></div>
-      <div class="form-row">
-        <input type="text" id="newTaskIcon" placeholder="🙂" maxlength="4" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;" value="📝">
-        <input type="text" id="newTaskLabel" placeholder="Nouvelle tâche">
-        <input type="number" id="newTaskPoints" value="5" step="5">
-        <button class="icon-btn" id="addTaskBtn" style="background:var(--purple); color:#fff;">➕</button>
+      <div class="new-item-box">
+        <div class="form-row">
+          <input type="text" id="newTaskIcon" placeholder="🙂" maxlength="4" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;" value="📝">
+          <input type="text" id="newTaskLabel" placeholder="Nouvelle tâche">
+          <input type="number" id="newTaskPoints" value="5" step="5">
+        </div>
+        <button class="primary-btn full" id="addTaskBtn">➕ Ajouter cette tâche</button>
       </div>
+      <button class="icon-btn" data-scroll-top style="width:100%; margin-top:14px; background:#F1F3FB;" title="Retour en haut">⬆️ Retour en haut</button>
     </div>
 
     <!-- Behaviors tab -->
     <div class="tab-panel" data-tab="behaviors">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
         <p style="font-size:.8rem; color:var(--ink-soft); margin:0;">Bonus / malus de comportement (points positifs ou négatifs).</p>
-        <button class="icon-btn" data-jump-to="newBehaviorLabel" title="Ajouter un comportement" style="flex-shrink:0; margin-left:8px;">⬇️</button>
+        <div style="display:flex; gap:6px; flex-shrink:0; margin-left:8px;">
+          <button class="icon-btn" data-sort-toggle="behaviors" title="Inverser le tri">↕️</button>
+          <button class="icon-btn" data-jump-to="newBehaviorLabel" title="Ajouter un comportement">⬇️</button>
+        </div>
       </div>
       <div id="behaviorsEditList" class="list-block"></div>
-      <div class="form-row">
-        <input type="text" id="newBehaviorLabel" placeholder="Nouveau comportement">
-        <input type="number" id="newBehaviorPoints" value="10" step="5">
-        <button class="icon-btn" id="addBehaviorBtn" style="background:var(--purple); color:#fff;">➕</button>
+      <div class="new-item-box">
+        <div class="form-row">
+          <input type="text" id="newBehaviorLabel" placeholder="Nouveau comportement">
+          <input type="number" id="newBehaviorPoints" value="10" step="5">
+        </div>
+        <button class="primary-btn full" id="addBehaviorBtn">➕ Ajouter ce comportement</button>
       </div>
+      <button class="icon-btn" data-scroll-top style="width:100%; margin-top:14px; background:#F1F3FB;" title="Retour en haut">⬆️ Retour en haut</button>
     </div>
 
     <!-- Rewards tab -->
     <div class="tab-panel" data-tab="rewards">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
         <p style="font-size:.8rem; color:var(--ink-soft); margin:0;">Récompenses hebdomadaires (basées sur le score de la semaine) ou exceptionnelles (avec des dates de début/fin, ex: sortie à Astérix). Choisis "Tous", un ou plusieurs enfants, ou "Aucun".</p>
-        <button class="icon-btn" data-jump-to="newRewardLabel" title="Ajouter une récompense" style="flex-shrink:0; margin-left:8px;">⬇️</button>
+        <div style="display:flex; gap:6px; flex-shrink:0; margin-left:8px;">
+          <button class="icon-btn" data-sort-toggle="rewards" title="Inverser le tri">↕️</button>
+          <button class="icon-btn" data-jump-to="newRewardLabel" title="Ajouter une récompense">⬇️</button>
+        </div>
       </div>
       <div id="rewardsEditList" class="list-block"></div>
-      <div class="form-row">
-        <input type="text" id="newRewardIcon" placeholder="🎟️" maxlength="4" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;" value="🎟️">
-        <input type="text" id="newRewardLabel" placeholder="Récompense (ex: Sortie au parc)">
-        <input type="number" id="newRewardPoints" value="50" step="5">
-        <button class="icon-btn" id="addRewardBtn" style="background:var(--purple); color:#fff;">➕</button>
+      <div class="new-item-box">
+        <div class="form-row" style="margin-bottom:8px;">
+          <input type="text" id="newRewardIcon" placeholder="🎟️" maxlength="4" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;" value="🎟️">
+          <input type="text" id="newRewardLabel" placeholder="Récompense (ex: Sortie au parc)">
+          <input type="number" id="newRewardPoints" value="50" step="5">
+        </div>
+        <div class="child-chips" style="margin-bottom:8px;">
+          <button class="child-chip active" data-new-reward-kind="weekly">📅 Hebdomadaire</button>
+          <button class="child-chip" data-new-reward-kind="special">🎉 Exceptionnelle</button>
+        </div>
+        <div class="form-row" id="newRewardDatesRow" style="margin-bottom:8px; display:none;">
+          <input type="date" id="newRewardStart" style="flex:1; padding:9px 10px; border-radius:10px; border:2px solid var(--line); font-size:.85rem;">
+          <input type="date" id="newRewardEnd" style="flex:1; padding:9px 10px; border-radius:10px; border:2px solid var(--line); font-size:.85rem;">
+        </div>
+        <div class="child-chips" id="newRewardChildChips" style="margin-bottom:8px;"></div>
+        <button class="primary-btn full" id="addRewardBtn">➕ Ajouter cette récompense</button>
       </div>
+      <button class="icon-btn" data-scroll-top style="width:100%; margin-top:14px; background:#F1F3FB;" title="Retour en haut">⬆️ Retour en haut</button>
     </div>
 
     <!-- Week tab -->
@@ -924,6 +958,7 @@
 
   let state = loadData();
   let pickerTargetChild = null;
+  const sortDirections = { tasks:"asc", behaviors:"asc", rewards:"asc" };
   let pickerFilter = "all";
   let pickerSearch = "";
   let activityTargetChild = null;
@@ -1365,7 +1400,8 @@
   function renderEditableList(containerId, arr, pointsKey, onSave, onRemove){
     const list = document.getElementById(containerId);
     list.innerHTML = "";
-    arr.sort((a,b)=> (a[pointsKey]-b[pointsKey]) || a.label.localeCompare(b.label,"fr"));
+    const dirB = sortDirections.behaviors === "desc" ? -1 : 1;
+    arr.sort((a,b)=> dirB * ((a[pointsKey]-b[pointsKey]) || a.label.localeCompare(b.label,"fr")));
     arr.forEach(item=>{
       const wrap = document.createElement("div");
       wrap.style.border = "2px solid var(--line)";
@@ -1404,7 +1440,8 @@
   function renderTasksEditList(){
     const list = document.getElementById("tasksEditList");
     list.innerHTML = "";
-    state.tasks.sort((a,b)=> (a.points-b.points) || a.label.localeCompare(b.label,"fr"));
+    const dirT = sortDirections.tasks === "desc" ? -1 : 1;
+    state.tasks.sort((a,b)=> dirT * ((a.points-b.points) || a.label.localeCompare(b.label,"fr")));
     state.tasks.forEach(item=>{
       const row = document.createElement("div");
       row.style.border = "2px solid var(--line)";
@@ -1486,7 +1523,8 @@
   function renderSettingsRewards(){
     const list = document.getElementById("rewardsEditList");
     list.innerHTML = "";
-    state.rewards.sort((a,b)=> (a.threshold-b.threshold) || a.label.localeCompare(b.label,"fr"));
+    const dirR = sortDirections.rewards === "desc" ? -1 : 1;
+    state.rewards.sort((a,b)=> dirR * ((a.threshold-b.threshold) || a.label.localeCompare(b.label,"fr")));
     state.rewards.forEach(item=>{
       const wrap = document.createElement("div");
       wrap.style.border = "2px solid var(--line)";
@@ -1605,16 +1643,84 @@
       });
     });
     wireAutoResize(list);
+    renderNewRewardForm();
   }
+  let newRewardDraft = { kind:"weekly", childIds:null };
+
+  function renderNewRewardForm(){
+    const chipsWrap = document.getElementById("newRewardChildChips");
+    let html = `<button class="child-chip ${newRewardDraft.childIds===null?'active':''}" data-new-reward-all>Tous</button>`;
+    state.children.forEach(c=>{
+      const active = Array.isArray(newRewardDraft.childIds) && newRewardDraft.childIds.includes(c.id);
+      html += `<button class="child-chip ${active?'active':''}" data-new-reward-child="${c.id}"><span class="dot" style="background:${c.color}; display:inline-block; margin-right:5px; vertical-align:middle;"></span>${escapeAttr(c.name)}</button>`;
+    });
+    if(Array.isArray(newRewardDraft.childIds) && newRewardDraft.childIds.length===0 && state.children.length>0){
+      html += `<span class="child-chip-none">Aucun enfant (non attribuée)</span>`;
+    }
+    chipsWrap.innerHTML = html;
+    chipsWrap.querySelectorAll("[data-new-reward-all]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{ newRewardDraft.childIds = null; renderNewRewardForm(); });
+    });
+    chipsWrap.querySelectorAll("[data-new-reward-child]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const childId = btn.getAttribute("data-new-reward-child");
+        const current = Array.isArray(newRewardDraft.childIds) ? newRewardDraft.childIds.slice() : [];
+        const idx = current.indexOf(childId);
+        if(idx === -1) current.push(childId); else current.splice(idx,1);
+        newRewardDraft.childIds = current;
+        renderNewRewardForm();
+      });
+    });
+  }
+
+  document.querySelectorAll("[data-new-reward-kind]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      newRewardDraft.kind = btn.getAttribute("data-new-reward-kind");
+      document.querySelectorAll("[data-new-reward-kind]").forEach(b=>b.classList.toggle("active", b===btn));
+      const datesRow = document.getElementById("newRewardDatesRow");
+      const isSpecial = newRewardDraft.kind === "special";
+      datesRow.style.display = isSpecial ? "flex" : "none";
+      if(isSpecial){
+        const startInput = document.getElementById("newRewardStart");
+        const endInput = document.getElementById("newRewardEnd");
+        if(!startInput.value && !endInput.value){
+          const today = new Date();
+          const inAWeek = new Date();
+          inAWeek.setDate(inAWeek.getDate()+7);
+          startInput.value = dateToKey(today);
+          endInput.value = dateToKey(inAWeek);
+        }
+      }
+    });
+  });
+
   document.getElementById("addRewardBtn").addEventListener("click", ()=>{
     const iconInput = document.getElementById("newRewardIcon");
     const labelInput = document.getElementById("newRewardLabel");
     const pointsInput = document.getElementById("newRewardPoints");
+    const startInput = document.getElementById("newRewardStart");
+    const endInput = document.getElementById("newRewardEnd");
     const label = labelInput.value.trim();
     if(!label) return;
-    state.rewards.push({ id: uid(), label, threshold: parseInt(pointsInput.value,10) || 50, childIds: null, icon: iconInput.value.trim() || "🎟️", kind:"weekly", startDate:null, endDate:null });
+    const isSpecial = newRewardDraft.kind === "special";
+    state.rewards.push({
+      id: uid(),
+      label,
+      threshold: parseInt(pointsInput.value,10) || 50,
+      childIds: newRewardDraft.childIds,
+      icon: iconInput.value.trim() || "🎟️",
+      kind: newRewardDraft.kind,
+      startDate: isSpecial ? (startInput.value || null) : null,
+      endDate: isSpecial ? (endInput.value || null) : null,
+    });
     labelInput.value = "";
     iconInput.value = "🎟️";
+    pointsInput.value = "50";
+    newRewardDraft = { kind:"weekly", childIds:null };
+    document.querySelectorAll("[data-new-reward-kind]").forEach(b=>b.classList.toggle("active", b.getAttribute("data-new-reward-kind")==="weekly"));
+    document.getElementById("newRewardDatesRow").style.display = "none";
+    startInput.value = "";
+    endInput.value = "";
     saveData();
     renderSettingsRewards();
     renderChildren();
@@ -1678,6 +1784,20 @@
         target.scrollIntoView({behavior:"smooth", block:"center"});
         setTimeout(()=>target.focus(), 300);
       }
+    });
+  });
+  document.querySelectorAll("[data-sort-toggle]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.getAttribute("data-sort-toggle");
+      sortDirections[key] = sortDirections[key] === "desc" ? "asc" : "desc";
+      if(key === "tasks") renderSettingsTasks();
+      else if(key === "behaviors") renderSettingsBehaviors();
+      else if(key === "rewards") renderSettingsRewards();
+    });
+  });
+  document.querySelectorAll("[data-scroll-top]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      overlay.scrollTo({top:0, behavior:"smooth"});
     });
   });
   document.getElementById("openSettings").addEventListener("click", ()=>openSettings());
