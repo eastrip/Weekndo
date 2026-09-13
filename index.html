@@ -665,7 +665,10 @@
 
     <!-- Tasks tab -->
     <div class="tab-panel" data-tab="tasks">
-      <p style="font-size:.8rem; color:var(--ink-soft); margin-top:0;">Tâches du quotidien (points positifs).</p>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <p style="font-size:.8rem; color:var(--ink-soft); margin:0;">Tâches du quotidien (points positifs).</p>
+        <button class="icon-btn" data-jump-to="newTaskLabel" title="Ajouter une tâche" style="flex-shrink:0; margin-left:8px;">⬇️</button>
+      </div>
       <div id="tasksEditList" class="list-block"></div>
       <div class="form-row">
         <input type="text" id="newTaskIcon" placeholder="🙂" maxlength="4" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;" value="📝">
@@ -677,7 +680,10 @@
 
     <!-- Behaviors tab -->
     <div class="tab-panel" data-tab="behaviors">
-      <p style="font-size:.8rem; color:var(--ink-soft); margin-top:0;">Bonus / malus de comportement (points positifs ou négatifs).</p>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <p style="font-size:.8rem; color:var(--ink-soft); margin:0;">Bonus / malus de comportement (points positifs ou négatifs).</p>
+        <button class="icon-btn" data-jump-to="newBehaviorLabel" title="Ajouter un comportement" style="flex-shrink:0; margin-left:8px;">⬇️</button>
+      </div>
       <div id="behaviorsEditList" class="list-block"></div>
       <div class="form-row">
         <input type="text" id="newBehaviorLabel" placeholder="Nouveau comportement">
@@ -688,7 +694,10 @@
 
     <!-- Rewards tab -->
     <div class="tab-panel" data-tab="rewards">
-      <p style="font-size:.8rem; color:var(--ink-soft); margin-top:0;">Récompenses hebdomadaires (basées sur le score de la semaine) ou exceptionnelles (avec des dates de début/fin, ex: sortie à Astérix). Choisis "Tous", un ou plusieurs enfants, ou "Aucun".</p>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <p style="font-size:.8rem; color:var(--ink-soft); margin:0;">Récompenses hebdomadaires (basées sur le score de la semaine) ou exceptionnelles (avec des dates de début/fin, ex: sortie à Astérix). Choisis "Tous", un ou plusieurs enfants, ou "Aucun".</p>
+        <button class="icon-btn" data-jump-to="newRewardLabel" title="Ajouter une récompense" style="flex-shrink:0; margin-left:8px;">⬇️</button>
+      </div>
       <div id="rewardsEditList" class="list-block"></div>
       <div class="form-row">
         <input type="text" id="newRewardIcon" placeholder="🎟️" maxlength="4" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;" value="🎟️">
@@ -1356,6 +1365,7 @@
   function renderEditableList(containerId, arr, pointsKey, onSave, onRemove){
     const list = document.getElementById(containerId);
     list.innerHTML = "";
+    arr.sort((a,b)=> (a[pointsKey]-b[pointsKey]) || a.label.localeCompare(b.label,"fr"));
     arr.forEach(item=>{
       const wrap = document.createElement("div");
       wrap.style.border = "2px solid var(--line)";
@@ -1394,6 +1404,7 @@
   function renderTasksEditList(){
     const list = document.getElementById("tasksEditList");
     list.innerHTML = "";
+    state.tasks.sort((a,b)=> (a.points-b.points) || a.label.localeCompare(b.label,"fr"));
     state.tasks.forEach(item=>{
       const row = document.createElement("div");
       row.style.border = "2px solid var(--line)";
@@ -1475,6 +1486,7 @@
   function renderSettingsRewards(){
     const list = document.getElementById("rewardsEditList");
     list.innerHTML = "";
+    state.rewards.sort((a,b)=> (a.threshold-b.threshold) || a.label.localeCompare(b.label,"fr"));
     state.rewards.forEach(item=>{
       const wrap = document.createElement("div");
       wrap.style.border = "2px solid var(--line)";
@@ -1659,6 +1671,15 @@
     if(tab) switchTab(tab);
   }
   function closeSettings(){ overlay.classList.remove("open"); }
+  document.querySelectorAll("[data-jump-to]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const target = document.getElementById(btn.getAttribute("data-jump-to"));
+      if(target){
+        target.scrollIntoView({behavior:"smooth", block:"center"});
+        setTimeout(()=>target.focus(), 300);
+      }
+    });
+  });
   document.getElementById("openSettings").addEventListener("click", ()=>openSettings());
   document.getElementById("emptyStateBtn").addEventListener("click", ()=>openSettings("children"));
   document.getElementById("closeSettings").addEventListener("click", closeSettings);
@@ -1797,7 +1818,12 @@
   }
 
   document.getElementById("backupRestoreBtn").addEventListener("click", ()=>{
-    attemptRestore(backupImportArea.value, "Ce texte");
+    try{
+      attemptRestore(backupImportArea.value, "Ce texte");
+    }catch(err){
+      console.error("Erreur inattendue lors de la restauration:", err);
+      alert("Une erreur inattendue est survenue pendant la restauration : " + (err && err.message ? err.message : err));
+    }
   });
 
   const backupFileInput = document.getElementById("backupFileInput");
