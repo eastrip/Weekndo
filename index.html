@@ -666,7 +666,7 @@
       <div class="form-row">
         <input type="color" id="newChildColor" value="#FF5FA0">
         <input type="text" id="newChildName" placeholder="Prénom de l'enfant">
-        <button class="icon-btn" id="addChildBtn" style="background:var(--purple); color:#fff;">➕</button>
+        <button class="icon-btn" id="addChildBtn" style="background:var(--purple); color:#fff; font-weight:800; font-size:1.2rem;">+</button>
       </div>
     </div>
 
@@ -686,7 +686,7 @@
           <input type="text" id="newTaskLabel" placeholder="Nouvelle tâche">
           <input type="number" id="newTaskPoints" value="5" step="5">
         </div>
-        <button class="primary-btn full" id="addTaskBtn">➕ Ajouter cette tâche</button>
+        <button class="primary-btn full" id="addTaskBtn">+ Ajouter cette tâche</button>
       </div>
       <button class="icon-btn" data-scroll-top style="width:100%; margin-top:14px; background:#F1F3FB;" title="Retour en haut">⬆️ Retour en haut</button>
     </div>
@@ -706,7 +706,7 @@
           <input type="text" id="newBehaviorLabel" placeholder="Nouveau comportement">
           <input type="number" id="newBehaviorPoints" value="10" step="5">
         </div>
-        <button class="primary-btn full" id="addBehaviorBtn">➕ Ajouter ce comportement</button>
+        <button class="primary-btn full" id="addBehaviorBtn">+ Ajouter ce comportement</button>
       </div>
       <button class="icon-btn" data-scroll-top style="width:100%; margin-top:14px; background:#F1F3FB;" title="Retour en haut">⬆️ Retour en haut</button>
     </div>
@@ -736,7 +736,7 @@
           <input type="date" id="newRewardEnd" style="flex:1; padding:9px 10px; border-radius:10px; border:2px solid var(--line); font-size:.85rem;">
         </div>
         <div class="child-chips" id="newRewardChildChips" style="margin-bottom:8px;"></div>
-        <button class="primary-btn full" id="addRewardBtn">➕ Ajouter cette récompense</button>
+        <button class="primary-btn full" id="addRewardBtn">+ Ajouter cette récompense</button>
       </div>
       <button class="icon-btn" data-scroll-top style="width:100%; margin-top:14px; background:#F1F3FB;" title="Retour en haut">⬆️ Retour en haut</button>
     </div>
@@ -1208,7 +1208,7 @@
           </div>
         </div>
         <div class="gauge-row">
-          <button class="add-btn-compact" data-picker-for="${child.id}" title="Ajouter">➕</button>
+          <button class="add-btn-compact" data-picker-for="${child.id}" title="Ajouter">+</button>
           <div class="gauge-track-wrap">
             <div class="gauge-reward-icons">${rewardIconsHtml}</div>
             <div class="gauge" style="background:${gaugeGradient};">
