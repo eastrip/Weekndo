@@ -1174,18 +1174,27 @@
       });
 
       // banners for every currently-active exceptional reward, so none stay hidden if several overlap
-      const activeSpecials = childRewards.filter(r=>r.kind==="special" && specialRewardStatus(r)==="current");
+      const activeSpecials = childRewards.filter(r=>{
+        if(r.kind!=="special") return false;
+        const status = specialRewardStatus(r);
+        return status==="current" || status==="past";
+      });
       let specialBannerHtml = "";
       activeSpecials.forEach(activeSpecial=>{
         const specialTotal = rewardTotalForChild(activeSpecial, child.id);
         const specialPct = activeSpecial.threshold > 0 ? Math.max(0, Math.min(100, (specialTotal/activeSpecial.threshold)*100)) : 100;
         const specialUnlocked = specialTotal >= activeSpecial.threshold;
+        const specialStatus = specialRewardStatus(activeSpecial);
+        let tagLabel;
+        if(specialUnlocked) tagLabel = "✓ Atteinte";
+        else if(specialStatus === "past") tagLabel = "Terminée";
+        else tagLabel = "En cours";
         specialBannerHtml += `
         <div class="special-banner" data-rewards-for="${child.id}">
           <div class="special-banner-top">
             <span class="special-banner-icon">${escapeHtml(activeSpecial.icon||'🎉')}</span>
             <span class="special-banner-text">${escapeHtml(activeSpecial.label)}</span>
-            <span class="special-banner-tag">${specialUnlocked ? '✓ Atteinte' : 'En cours'}</span>
+            <span class="special-banner-tag">${tagLabel}</span>
           </div>
           <div class="special-banner-bar"><div class="special-banner-bar-fill" style="width:${specialPct}%;"></div></div>
           <div class="special-banner-bottom">
