@@ -6,7 +6,7 @@
 <title>WeeknDo — Tableau des points</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Slackey&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Cherry+Bomb+One&display=swap" rel="stylesheet">
 <style>
   :root{
     --card: #FFFFFF;
@@ -60,18 +60,19 @@
   }
   .topbar-actions{display:flex; gap:10px; flex-shrink:0;}
   .topbar h1{
-    font-family:'Slackey', 'Fredoka', sans-serif;
+    font-family:'Cherry Bomb One', 'Fredoka', sans-serif;
     font-size:3.3rem;
     font-weight:400;
     color:var(--purple-dark);
     letter-spacing:.5px;
     text-transform:uppercase;
+    -webkit-text-stroke:6px var(--ink);
+    paint-order:stroke fill;
   }
   .topbar h1 span{color:var(--gold-dark);}
   .topbar h1 .logo-n{
-    font-size:.5em;
+    font-size:.75em;
     color:#E57241;
-    margin-left:.15em;
   }
   .gear-btn, .history-btn{
     width:46px;height:46px;
@@ -281,6 +282,62 @@
     font-family:'Fredoka', sans-serif;
   }
 
+  .special-banner{
+    margin-top:14px;
+    cursor:pointer;
+  }
+  .special-banner-top{
+    display:flex; align-items:center; gap:6px;
+    margin-bottom:6px;
+  }
+  .special-banner-icon{font-size:.95rem; flex-shrink:0;}
+  .special-banner-text{
+    flex:1;
+    font-weight:700;
+    font-size:.78rem;
+    color:var(--ink-soft);
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .special-banner-tag{
+    flex-shrink:0;
+    font-size:.68rem;
+    font-weight:700;
+    color:var(--gold-dark);
+    font-family:'Fredoka', sans-serif;
+  }
+  .special-banner-bar{
+    width:100%; height:12px;
+    border-radius:999px;
+    border:2px solid var(--ink);
+    background:#F1F3FB;
+    overflow:hidden;
+  }
+  .special-banner-bar-fill{
+    height:100%;
+    background:linear-gradient(to right, var(--gold), var(--gold-dark));
+    border-radius:999px;
+    transition:width .4s cubic-bezier(.34,1.56,.64,1);
+  }
+  .special-banner-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    gap:8px;
+    margin-top:4px;
+  }
+  .special-banner-dates{
+    font-size:.65rem;
+    font-weight:700;
+    color:var(--ink-soft);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .special-banner-pts{
+    font-size:.68rem;
+    font-weight:700;
+    color:var(--ink-soft);
+    flex-shrink:0;
+  }
+
   .rewards-list{
     width:100%;
     display:flex; flex-direction:column; gap:10px;
@@ -317,6 +374,25 @@
     transition:width .4s cubic-bezier(.34,1.56,.64,1);
   }
   .reward-chip.unlocked .chip-bar-fill{background:var(--green-dark);}
+  .reward-chip.special{
+    border:2px dashed var(--gold-dark);
+    background:linear-gradient(135deg, #FFF6DA, #FFE6D9);
+  }
+  .reward-chip.special.unlocked{
+    border-style:solid;
+    background:linear-gradient(135deg, #FFEFA8, #FFD1C2);
+  }
+  .special-status{
+    display:inline-block;
+    font-size:.65rem;
+    font-weight:800;
+    padding:2px 8px;
+    border-radius:999px;
+    font-family:'Fredoka', sans-serif;
+  }
+  .special-status.upcoming{background:#E3E8F5; color:var(--ink-soft);}
+  .special-status.current{background:var(--gold-dark); color:#fff;}
+  .special-status.past{background:#F1F3FB; color:var(--ink-soft);}
 
   .add-btn{
     background:var(--purple);
@@ -442,6 +518,13 @@
     padding:9px 16px; font-weight:700; font-size:.85rem;
   }
   .primary-btn.full{width:100%; margin-top:4px;}
+  .new-item-box{
+    border:2px solid var(--purple);
+    border-radius:14px;
+    padding:12px;
+    background:#FAF9FF;
+    margin-top:8px;
+  }
   select.select-plain{
     padding:9px; border-radius:10px; border:2px solid var(--line); font-size:.85rem;
   }
@@ -599,43 +682,79 @@
       <div class="form-row">
         <input type="color" id="newChildColor" value="#FF5FA0">
         <input type="text" id="newChildName" placeholder="Prénom de l'enfant">
-        <button class="icon-btn" id="addChildBtn" style="background:var(--purple); color:#fff;">➕</button>
+        <button class="icon-btn" id="addChildBtn" style="background:var(--purple); color:#fff; font-weight:800; font-size:1.2rem;">+</button>
       </div>
     </div>
 
     <!-- Tasks tab -->
     <div class="tab-panel" data-tab="tasks">
-      <p style="font-size:.8rem; color:var(--ink-soft); margin-top:0;">Tâches du quotidien (points positifs).</p>
-      <div id="tasksEditList" class="list-block"></div>
-      <div class="form-row">
-        <input type="text" id="newTaskIcon" placeholder="🙂" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;" value="📝">
-        <input type="text" id="newTaskLabel" placeholder="Nouvelle tâche">
-        <input type="number" id="newTaskPoints" value="5" step="5">
-        <button class="icon-btn" id="addTaskBtn" style="background:var(--purple); color:#fff;">➕</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <p style="font-size:.8rem; color:var(--ink-soft); margin:0;">Tâches du quotidien (points positifs).</p>
+        <div style="display:flex; gap:6px; flex-shrink:0; margin-left:8px;">
+          <button class="icon-btn" data-sort-toggle="tasks" title="Inverser le tri">↕️</button>
+          <button class="icon-btn" data-jump-to="newTaskLabel" title="Ajouter une tâche">⬇️</button>
+        </div>
       </div>
+      <div id="tasksEditList" class="list-block"></div>
+      <div class="new-item-box">
+        <div class="form-row">
+          <input type="text" id="newTaskIcon" placeholder="🙂" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;" value="📝">
+          <input type="text" id="newTaskLabel" placeholder="Nouvelle tâche">
+          <input type="number" id="newTaskPoints" value="5" step="5">
+        </div>
+        <button class="primary-btn full" id="addTaskBtn">+ Ajouter cette tâche</button>
+      </div>
+      <button class="icon-btn" data-scroll-top style="width:100%; margin-top:14px; background:#F1F3FB;" title="Retour en haut">⬆️ Retour en haut</button>
     </div>
 
     <!-- Behaviors tab -->
     <div class="tab-panel" data-tab="behaviors">
-      <p style="font-size:.8rem; color:var(--ink-soft); margin-top:0;">Bonus / malus de comportement (points positifs ou négatifs).</p>
-      <div id="behaviorsEditList" class="list-block"></div>
-      <div class="form-row">
-        <input type="text" id="newBehaviorLabel" placeholder="Nouveau comportement">
-        <input type="number" id="newBehaviorPoints" value="10" step="5">
-        <button class="icon-btn" id="addBehaviorBtn" style="background:var(--purple); color:#fff;">➕</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <p style="font-size:.8rem; color:var(--ink-soft); margin:0;">Bonus / malus de comportement (points positifs ou négatifs).</p>
+        <div style="display:flex; gap:6px; flex-shrink:0; margin-left:8px;">
+          <button class="icon-btn" data-sort-toggle="behaviors" title="Inverser le tri">↕️</button>
+          <button class="icon-btn" data-jump-to="newBehaviorLabel" title="Ajouter un comportement">⬇️</button>
+        </div>
       </div>
+      <div id="behaviorsEditList" class="list-block"></div>
+      <div class="new-item-box">
+        <div class="form-row">
+          <input type="text" id="newBehaviorLabel" placeholder="Nouveau comportement">
+          <input type="number" id="newBehaviorPoints" value="10" step="5">
+        </div>
+        <button class="primary-btn full" id="addBehaviorBtn">+ Ajouter ce comportement</button>
+      </div>
+      <button class="icon-btn" data-scroll-top style="width:100%; margin-top:14px; background:#F1F3FB;" title="Retour en haut">⬆️ Retour en haut</button>
     </div>
 
     <!-- Rewards tab -->
     <div class="tab-panel" data-tab="rewards">
-      <p style="font-size:.8rem; color:var(--ink-soft); margin-top:0;">Récompenses débloquées selon le score de la semaine. Choisis "Tous", un ou plusieurs enfants, ou "Aucun" si elle n'est pas attribuée cette semaine.</p>
-      <div id="rewardsEditList" class="list-block"></div>
-      <div class="form-row">
-        <input type="text" id="newRewardIcon" placeholder="🎟️" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;" value="🎟️">
-        <input type="text" id="newRewardLabel" placeholder="Récompense (ex: Sortie au parc)">
-        <input type="number" id="newRewardPoints" value="50" step="5">
-        <button class="icon-btn" id="addRewardBtn" style="background:var(--purple); color:#fff;">➕</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <p style="font-size:.8rem; color:var(--ink-soft); margin:0;">Récompenses hebdomadaires (basées sur le score de la semaine) ou exceptionnelles (avec des dates de début/fin, ex: sortie à Astérix). Choisis "Tous", un ou plusieurs enfants, ou "Aucun".</p>
+        <div style="display:flex; gap:6px; flex-shrink:0; margin-left:8px;">
+          <button class="icon-btn" data-sort-toggle="rewards" title="Inverser le tri">↕️</button>
+          <button class="icon-btn" data-jump-to="newRewardLabel" title="Ajouter une récompense">⬇️</button>
+        </div>
       </div>
+      <div id="rewardsEditList" class="list-block"></div>
+      <div class="new-item-box">
+        <div class="form-row" style="margin-bottom:8px;">
+          <input type="text" id="newRewardIcon" placeholder="🎟️" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;" value="🎟️">
+          <input type="text" id="newRewardLabel" placeholder="Récompense (ex: Sortie au parc)">
+          <input type="number" id="newRewardPoints" value="50" step="5">
+        </div>
+        <div class="child-chips" style="margin-bottom:8px;">
+          <button class="child-chip active" data-new-reward-kind="weekly">📅 Hebdomadaire</button>
+          <button class="child-chip" data-new-reward-kind="special">🎉 Exceptionnelle</button>
+        </div>
+        <div class="form-row" id="newRewardDatesRow" style="margin-bottom:8px; display:none;">
+          <input type="date" id="newRewardStart" style="flex:1; padding:9px 10px; border-radius:10px; border:2px solid var(--line); font-size:.85rem;">
+          <input type="date" id="newRewardEnd" style="flex:1; padding:9px 10px; border-radius:10px; border:2px solid var(--line); font-size:.85rem;">
+        </div>
+        <div class="child-chips" id="newRewardChildChips" style="margin-bottom:8px;"></div>
+        <button class="primary-btn full" id="addRewardBtn">+ Ajouter cette récompense</button>
+      </div>
+      <button class="icon-btn" data-scroll-top style="width:100%; margin-top:14px; background:#F1F3FB;" title="Retour en haut">⬆️ Retour en haut</button>
     </div>
 
     <!-- Week tab -->
@@ -716,6 +835,7 @@
         <button class="tab-btn active" data-picker-filter="all">Tout</button>
         <button class="tab-btn" data-picker-filter="task">✅ Tâches</button>
         <button class="tab-btn" data-picker-filter="behavior">🌟 Comportements</button>
+        <button class="icon-btn" id="pickerSortToggle" title="Inverser le tri" style="margin-left:auto;">↕️</button>
       </div>
       <div id="pickerList" class="picker-list"></div>
       <button class="add-btn" id="pickerConfirmBtn" style="margin-top:16px;" disabled>✅ Valider</button>
@@ -795,8 +915,8 @@
     ["Argent de poche bonus",120,"💰"],
   ];
 
-  // 0=Dimanche ... 6=Samedi. Default: Lundi 00:00 -> Vendredi 23:59, so the week is "closed"
-  // during the weekend and the gauges keep showing the earned rewards until Monday.
+  // 0=Dimanche ... 6=Samedi. Default for new installs: Lundi 00:00 -> Vendredi 23:59, so the week is
+  // "closed" during the weekend and the gauges keep showing the earned rewards until Monday.
   const DEFAULT_WEEK_SETTINGS = { startDay:1, startTime:"00:00", endDay:5, endTime:"23:59" };
 
   function uid(){ return Math.random().toString(36).slice(2,10) + Date.now().toString(36); }
@@ -808,6 +928,7 @@
   }
   function isHexColor(c){ return typeof c === "string" && /^#[0-9a-fA-F]{6}$/.test(c); }
   function isTimeStr(t){ return typeof t === "string" && /^([01]\d|2[0-3]):[0-5]\d$/.test(t); }
+  function isDateKey(v){ return typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v); }
   function isValidDateStr(s){ return typeof s === "string" && !isNaN(new Date(s).getTime()); }
   // first user-perceived character (keeps composed emojis like 👨‍👩‍👧 intact)
   function firstGrapheme(str){
@@ -825,7 +946,7 @@
       children: [],
       tasks: DEFAULT_TASKS.map(([label,points,icon])=>({id:uid(), label, points, icon})),
       behaviors: DEFAULT_BEHAVIORS.map(([label,points])=>({id:uid(), label, points})),
-      rewards: DEFAULT_REWARDS.map(([label,threshold,icon])=>({id:uid(), label, threshold, childIds:null, icon})),
+      rewards: DEFAULT_REWARDS.map(([label,threshold,icon])=>({id:uid(), label, threshold, childIds:null, icon, kind:"weekly", startDate:null, endDate:null})),
       weeks: {},
       weekSettings: { ...DEFAULT_WEEK_SETTINGS }
     };
@@ -851,7 +972,9 @@
     }
   }
 
-  // Rebuilds a clean, complete data object from anything (old version, hand-edited or partial backup).
+  // Repairs data from any source (old version, hand-edited or partial backup).
+  // IMPORTANT: every object is copied with "...original" first, so fields this code
+  // doesn't know about are always kept — never strip data here.
   function normalizeData(parsed){
     if(!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("invalid data");
     const isObj = o => !!o && typeof o === "object" && !Array.isArray(o);
@@ -861,12 +984,14 @@
     const list = v => Array.isArray(v) ? v.filter(isObj) : [];
 
     const children = list(parsed.children).map((c,i)=>({
+      ...c,
       id: idOf(c.id),
       name: str(c.name, "Enfant"),
       color: isHexColor(c.color) ? c.color : CHILD_COLORS[i % CHILD_COLORS.length],
     }));
 
     const tasks = list(parsed.tasks).map(t=>({
+      ...t,
       id: idOf(t.id),
       label: str(t.label, "Tâche"),
       points: num(t.points, 0),
@@ -874,6 +999,7 @@
     }));
 
     const behaviors = list(parsed.behaviors).map(b=>({
+      ...b,
       id: idOf(b.id),
       label: str(b.label, "Comportement"),
       points: num(b.points, 0),
@@ -885,38 +1011,45 @@
       if(r.childIds === undefined) childIds = (r.childId === undefined || r.childId === null) ? null : [String(r.childId)];
       else if(Array.isArray(r.childIds)) childIds = r.childIds.filter(x=>typeof x === "string" || typeof x === "number").map(String);
       else childIds = null;
-      return {
+      const out = {
+        ...r,
         id: idOf(r.id),
         label: str(r.label, "Récompense"),
         threshold: num(r.threshold, 0),
         childIds,
         icon: firstGrapheme(r.icon) || "🎟️",
+        kind: r.kind === "special" ? "special" : "weekly",
+        startDate: isDateKey(r.startDate) ? r.startDate : null,
+        endDate: isDateKey(r.endDate) ? r.endDate : null,
       };
+      delete out.childId;
+      return out;
     });
 
     const weeks = {};
     if(isObj(parsed.weeks)){
       Object.keys(parsed.weeks).forEach(key=>{
         const w = parsed.weeks[key];
-        if(!/^\d{4}-\d{2}-\d{2}$/.test(key) || !isObj(w)) return;
+        if(!isDateKey(key) || !isObj(w)) return;
         const entries = {};
         if(isObj(w.entries)){
           Object.keys(w.entries).forEach(cid=>{
             const e = w.entries[cid];
             if(!isObj(e)) return;
             const log = list(e.log).map(l=>({
+              ...l,
               logId: idOf(l.logId),
               label: str(l.label, "Activité"),
               points: num(l.points, 0),
               icon: typeof l.icon === "string" && l.icon ? l.icon : null,
-              date: isValidDateStr(l.date) ? l.date : new Date(keyToDate(key)).toISOString(),
+              date: isValidDateStr(l.date) ? l.date : keyToDate(key).toISOString(),
             }));
-            const logSum = log.reduce((s,l)=>s+l.points, 0);
-            entries[cid] = { total: num(e.total, logSum), log };
+            const logSum = log.reduce((sum,l)=>sum+l.points, 0);
+            entries[cid] = { ...e, total: num(e.total, logSum), log };
           });
         }
-        const week = { entries };
-        if(isValidDateStr(w.start) && isValidDateStr(w.end)){ week.start = w.start; week.end = w.end; }
+        const week = { ...w, entries };
+        if(!(isValidDateStr(w.start) && isValidDateStr(w.end))){ delete week.start; delete week.end; }
         weeks[key] = week;
       });
     }
@@ -924,13 +1057,14 @@
     const ws = isObj(parsed.weekSettings) ? parsed.weekSettings : {};
     const day = (v, def) => { const n = toInt(v, NaN); return (n >= 0 && n <= 6) ? n : def; };
     const weekSettings = {
+      ...ws,
       startDay: day(ws.startDay, DEFAULT_WEEK_SETTINGS.startDay),
       startTime: isTimeStr(ws.startTime) ? ws.startTime : DEFAULT_WEEK_SETTINGS.startTime,
       endDay: day(ws.endDay, DEFAULT_WEEK_SETTINGS.endDay),
       endTime: isTimeStr(ws.endTime) ? ws.endTime : DEFAULT_WEEK_SETTINGS.endTime,
     };
 
-    return { children, tasks, behaviors, rewards, weeks, weekSettings };
+    return { ...parsed, children, tasks, behaviors, rewards, weeks, weekSettings };
   }
 
   function showStorageWarning(){
@@ -958,6 +1092,7 @@
 
   let state = loadData();
   let pickerTargetChild = null;
+  const sortDirections = { tasks:"asc", behaviors:"asc", rewards:"asc" };
   let pickerFilter = "all";
   let pickerSearch = "";
   let activityTargetChild = null;
@@ -1049,6 +1184,11 @@
     const d = new Date(iso);
     return d.toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit"}) + " " + d.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
   }
+  function fmtDateOnly(dateKey){
+    if(!dateKey) return "";
+    const d = keyToDate(dateKey);
+    return d.toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric"});
+  }
 
   function ensureCurrentWeek(){
     const key = weekKeyOf(new Date());
@@ -1079,7 +1219,7 @@
     const key = weekKeyOf(new Date());
     const w = state.weeks[key];
     const end = (w && w.end) ? new Date(w.end) : weekEndOf(key);
-    return key + "|" + (Date.now() > end.getTime());
+    return key + "|" + (Date.now() > end.getTime()) + "|" + dateToKey(new Date());
   }
   function fmtNextStart(d){
     return d.toLocaleDateString("fr-FR", {weekday:"long", day:"numeric", month:"long"})
@@ -1092,13 +1232,46 @@
     return w.entries[childId].total;
   }
 
+  function getChildRangeTotal(childId, startDateStr, endDateStr){
+    if(!startDateStr || !endDateStr) return 0;
+    const start = keyToDate(startDateStr);
+    start.setHours(0,0,0,0);
+    const end = keyToDate(endDateStr);
+    end.setHours(23,59,59,999);
+    let sum = 0;
+    Object.values(state.weeks).forEach(week=>{
+      const entry = week.entries && week.entries[childId];
+      if(!entry || !entry.log) return;
+      entry.log.forEach(item=>{
+        const d = new Date(item.date);
+        if(d >= start && d <= end) sum += item.points;
+      });
+    });
+    return sum;
+  }
+
+  function rewardTotalForChild(reward, childId){
+    if(reward.kind === "special") return getChildRangeTotal(childId, reward.startDate, reward.endDate);
+    return getChildTotal(state.currentWeekKey, childId);
+  }
+
+  function specialRewardStatus(reward){
+    if(!reward.startDate || !reward.endDate) return "invalid";
+    const today = dateToKey(new Date());
+    if(today < reward.startDate) return "upcoming";
+    if(today > reward.endDate) return "past";
+    return "current";
+  }
+
   /* ================= RENDER: CHILDREN + GAUGES ================= */
   function rewardsForChild(childId){
     return state.rewards.filter(r => r.childIds === null || r.childIds === undefined || (Array.isArray(r.childIds) && r.childIds.includes(childId)));
   }
 
   function computeMaxScale(){
-    const rewardMax = state.rewards.reduce((m,r)=>Math.max(m,r.threshold),0);
+    // exceptional (date-range) rewards don't affect the weekly gauge's scale/marks —
+    // their threshold lives on a completely different, custom time-span
+    const rewardMax = state.rewards.filter(r=>r.kind!=="special").reduce((m,r)=>Math.max(m,r.threshold),0);
     const curKey = state.currentWeekKey;
     let scoreMax = 0;
     state.children.forEach(c=> scoreMax = Math.max(scoreMax, getChildTotal(curKey,c.id)));
@@ -1164,36 +1337,66 @@
       const initials = escapeHtml(firstGrapheme(child.name).toUpperCase() || "?");
       const cid = escapeAttr(child.id);
       const childRewards = rewardsForChild(child.id);
-      const unlockedCount = childRewards.filter(r => total >= r.threshold).length;
+      const unlockedCount = childRewards.filter(r => rewardTotalForChild(r, child.id) >= r.threshold).length;
 
-      // reward marks html (vertical dashed lines on the horizontal gauge)
+      // reward marks html (vertical dashed lines on the horizontal gauge) — weekly rewards only,
+      // since an exceptional (date-range) reward's threshold lives on a different time-span
       let rewardMarksHtml = "";
       let rewardIconsHtml = "";
-      const sortedChildRewards = childRewards.slice().sort((a,b)=>a.threshold-b.threshold);
+      const sortedWeeklyRewards = childRewards.filter(r=>r.kind!=="special").slice().sort((a,b)=>a.threshold-b.threshold);
       // group rewards that land on (almost) the same spot on the gauge so their icons
       // can be fanned out side-by-side instead of stacking directly on top of each other
       const ICON_COLLISION_PCT = 3; // threshold proximity (in % of gauge width) treated as a tie
+      const ICON_OFFSET_PX = 16;
       const groups = [];
-      sortedChildRewards.forEach(r=>{
+      sortedWeeklyRewards.forEach(r=>{
         const posPct = Math.max(0, Math.min(100, ((r.threshold - minScale) / range) * 100));
         const lastGroup = groups[groups.length - 1];
         if(lastGroup && Math.abs(posPct - lastGroup.posPct) < ICON_COLLISION_PCT){
-          lastGroup.items.push(r);
+          lastGroup.items.push({ r, posPct });
         } else {
-          groups.push({ posPct, items: [r] });
+          groups.push({ posPct, items: [{ r, posPct }] });
         }
       });
-      const ICON_OFFSET_PX = 16;
       groups.forEach(group=>{
-        group.items.forEach(r=>{
-          const posPct = Math.max(0, Math.min(100, ((r.threshold - minScale) / range) * 100));
+        group.items.forEach(({ r, posPct }, idx)=>{
           rewardMarksHtml += `<div class="gauge-reward-mark" style="left:${posPct}%;"></div>`;
-        });
-        group.items.forEach((r, idx)=>{
           const offsetPx = (idx - (group.items.length - 1) / 2) * ICON_OFFSET_PX;
           const leftStyle = offsetPx === 0 ? `${group.posPct}%` : `calc(${group.posPct}% + ${offsetPx}px)`;
           rewardIconsHtml += `<span class="gauge-reward-icon" style="left:${leftStyle};" title="${escapeAttr(r.label)} (${r.threshold}pt)">${escapeHtml(r.icon||'🎟️')}</span>`;
         });
+      });
+
+      // banners for every currently-active exceptional reward, so none stay hidden if several overlap
+      const activeSpecials = childRewards.filter(r=>{
+        if(r.kind!=="special") return false;
+        const status = specialRewardStatus(r);
+        return status==="current" || status==="past";
+      });
+      let specialBannerHtml = "";
+      activeSpecials.forEach(activeSpecial=>{
+        const specialTotal = rewardTotalForChild(activeSpecial, child.id);
+        const specialPct = activeSpecial.threshold > 0 ? Math.max(0, Math.min(100, (specialTotal/activeSpecial.threshold)*100)) : 100;
+        const specialUnlocked = specialTotal >= activeSpecial.threshold;
+        const specialStatus = specialRewardStatus(activeSpecial);
+        let tagLabel;
+        if(specialUnlocked) tagLabel = "✓ Atteinte";
+        else if(specialStatus === "past") tagLabel = "Terminée";
+        else tagLabel = "En cours";
+        specialBannerHtml += `
+        <div class="special-banner" data-rewards-for="${cid}">
+          <div class="special-banner-top">
+            <span class="special-banner-icon">${escapeHtml(activeSpecial.icon||'🎉')}</span>
+            <span class="special-banner-text">${escapeHtml(activeSpecial.label)}</span>
+            <span class="special-banner-tag">${escapeHtml(tagLabel)}</span>
+          </div>
+          <div class="special-banner-bar"><div class="special-banner-bar-fill" style="width:${specialPct}%;"></div></div>
+          <div class="special-banner-bottom">
+            <span class="special-banner-dates">${fmtDateOnly(activeSpecial.startDate)} → ${fmtDateOnly(activeSpecial.endDate)}</span>
+            <span class="special-banner-pts">${specialTotal} / ${activeSpecial.threshold} pts</span>
+          </div>
+        </div>
+      `;
       });
 
       const activityCount = entry.log.length;
@@ -1209,7 +1412,7 @@
           </div>
         </div>
         <div class="gauge-row">
-          <button class="add-btn-compact" data-picker-for="${cid}" title="${info.closed ? 'Semaine terminée' : 'Ajouter'}" aria-label="Ajouter"${info.closed ? ' disabled' : ''}>➕</button>
+          <button class="add-btn-compact" data-picker-for="${cid}" title="${info.closed ? 'Semaine terminée' : 'Ajouter'}" aria-label="Ajouter"${info.closed ? ' disabled' : ''}>+</button>
           <div class="gauge-track-wrap">
             <div class="gauge-reward-icons">${rewardIconsHtml}</div>
             <div class="gauge" style="background:${gaugeGradient};">
@@ -1222,6 +1425,7 @@
           <button class="activity-icon-btn" data-activity-for="${cid}" title="Activité récente" aria-label="Activité récente">🕒${activityCount?`<span class="activity-badge">${activityCount}</span>`:''}</button>
         </div>
         ${closedNote}
+        ${specialBannerHtml}
       `;
       grid.appendChild(card);
     });
@@ -1309,11 +1513,30 @@
       card.innerHTML = `
         <div class="week-card-header">
           <span class="range">${fmtRange(key)}</span>
-          ${isCurrent ? `<span class="tag">${(week.end && Date.now() > new Date(week.end).getTime()) ? 'Terminée 🏁' : 'Semaine en cours'}</span>` : ''}
+          <div style="display:flex; align-items:center; gap:8px;">
+            ${isCurrent ? `<span class="tag">${(week.end && Date.now() > new Date(week.end).getTime()) ? 'Terminée 🏁' : 'Semaine en cours'}</span>` : ''}
+            <button class="icon-btn danger" data-delete-week="${escapeAttr(key)}" aria-label="Supprimer cette semaine" title="Supprimer cette semaine">🗑️</button>
+          </div>
         </div>
         <div class="week-body">${rowsHtml}</div>
       `;
       container.appendChild(card);
+    });
+    container.querySelectorAll("[data-delete-week]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const key = btn.getAttribute("data-delete-week");
+        const label = fmtRange(key);
+        if(confirm(`Supprimer définitivement la semaine du ${label} ? Cette action est irréversible.`)){
+          delete state.weeks[key];
+          saveData();
+          if(key === state.currentWeekKey){
+            // recreate an empty current week immediately so the app stays in a valid state
+            ensureCurrentWeek();
+          }
+          renderHistory();
+          renderChildren();
+        }
+      });
     });
   }
 
@@ -1385,6 +1608,8 @@
   function renderEditableList(containerId, arr, pointsKey, onSave, onRemove){
     const list = document.getElementById(containerId);
     list.innerHTML = "";
+    const dirB = sortDirections.behaviors === "desc" ? -1 : 1;
+    arr.sort((a,b)=> dirB * ((a[pointsKey]-b[pointsKey]) || a.label.localeCompare(b.label,"fr")));
     arr.forEach(item=>{
       const wrap = document.createElement("div");
       wrap.style.border = "2px solid var(--line)";
@@ -1423,6 +1648,8 @@
   function renderTasksEditList(){
     const list = document.getElementById("tasksEditList");
     list.innerHTML = "";
+    const dirT = sortDirections.tasks === "desc" ? -1 : 1;
+    state.tasks.sort((a,b)=> dirT * ((a.points-b.points) || a.label.localeCompare(b.label,"fr")));
     state.tasks.forEach(item=>{
       const row = document.createElement("div");
       row.style.border = "2px solid var(--line)";
@@ -1504,6 +1731,8 @@
   function renderSettingsRewards(){
     const list = document.getElementById("rewardsEditList");
     list.innerHTML = "";
+    const dirR = sortDirections.rewards === "desc" ? -1 : 1;
+    state.rewards.sort((a,b)=> dirR * ((a.threshold-b.threshold) || a.label.localeCompare(b.label,"fr")));
     state.rewards.forEach(item=>{
       const wrap = document.createElement("div");
       wrap.style.border = "2px solid var(--line)";
@@ -1520,11 +1749,13 @@
         chipsHtml += `<button class="child-chip ${active ? 'active' : ''}" data-chip-child="${escapeAttr(item.id)}" data-child-id="${escapeAttr(c.id)}"><span class="dot" style="background:${c.color}; display:inline-block; margin-right:5px; vertical-align:middle;"></span>${escapeAttr(c.name)}</button>`;
       });
       if(!isAll && selectedIds.length === 0 && state.children.length > 0){
-        chipsHtml += `<span class="child-chip-none">Aucun enfant (pas attribuée cette semaine)</span>`;
+        chipsHtml += `<span class="child-chip-none">Aucun enfant (non attribuée)</span>`;
       }
       if(state.children.length === 0){
         chipsHtml += `<span class="child-chip-none">Ajoute des enfants pour choisir à qui l'attribuer</span>`;
       }
+
+      const isSpecial = item.kind === "special";
 
       wrap.innerHTML = `
         <textarea data-reward-label="${escapeAttr(item.id)}" rows="1" class="auto-textarea" style="width:100%; margin-bottom:8px; padding:9px 10px; border-radius:10px; border:2px solid var(--line); box-sizing:border-box; font-family:inherit; font-size:.88rem; resize:none; overflow:hidden;">${escapeHtml(item.label)}</textarea>
@@ -1533,9 +1764,47 @@
           <input type="number" value="${item.threshold}" step="5" data-reward-points="${escapeAttr(item.id)}">
           <button class="icon-btn danger" data-reward-remove="${escapeAttr(item.id)}" style="margin-left:auto;">🗑️</button>
         </div>
+        <div class="child-chips" style="margin-bottom:8px;">
+          <button class="child-chip ${!isSpecial ? 'active' : ''}" data-reward-kind="${escapeAttr(item.id)}" data-kind-value="weekly">📅 Hebdomadaire</button>
+          <button class="child-chip ${isSpecial ? 'active' : ''}" data-reward-kind="${escapeAttr(item.id)}" data-kind-value="special">🎉 Exceptionnelle</button>
+        </div>
+        ${isSpecial ? `
+        <div class="form-row" style="margin-bottom:4px;">
+          <input type="date" value="${escapeAttr(item.startDate||'')}" data-reward-start="${escapeAttr(item.id)}" style="flex:1; padding:9px 10px; border-radius:10px; border:2px solid ${item.startDate ? 'var(--line)' : 'var(--coral)'}; font-size:.85rem;">
+          <input type="date" value="${escapeAttr(item.endDate||'')}" data-reward-end="${escapeAttr(item.id)}" style="flex:1; padding:9px 10px; border-radius:10px; border:2px solid ${item.endDate ? 'var(--line)' : 'var(--coral)'}; font-size:.85rem;">
+        </div>
+        ${(!item.startDate || !item.endDate) ? `<div style="font-size:.72rem; color:var(--coral-dark); font-weight:700; margin-bottom:8px;">⚠️ Ajoute une date de début et de fin, sinon cette récompense ne comptera aucun point.</div>` : ``}
+        ` : ``}
         <div class="child-chips">${chipsHtml}</div>
       `;
       list.appendChild(wrap);
+    });
+    list.querySelectorAll("[data-reward-kind]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const item = state.rewards.find(x=>x.id===btn.getAttribute("data-reward-kind"));
+        if(!item) return;
+        item.kind = btn.getAttribute("data-kind-value");
+        if(item.kind === "special" && !item.startDate && !item.endDate){
+          const today = new Date();
+          const inAWeek = new Date();
+          inAWeek.setDate(inAWeek.getDate() + 7);
+          item.startDate = dateToKey(today);
+          item.endDate = dateToKey(inAWeek);
+        }
+        saveData(); renderSettingsRewards(); renderChildren();
+      });
+    });
+    list.querySelectorAll("[data-reward-start]").forEach(inp=>{
+      inp.addEventListener("change", ()=>{
+        const item = state.rewards.find(x=>x.id===inp.getAttribute("data-reward-start"));
+        if(item){ item.startDate = isDateKey(inp.value) ? inp.value : null; saveData(); renderSettingsRewards(); renderChildren(); }
+      });
+    });
+    list.querySelectorAll("[data-reward-end]").forEach(inp=>{
+      inp.addEventListener("change", ()=>{
+        const item = state.rewards.find(x=>x.id===inp.getAttribute("data-reward-end"));
+        if(item){ item.endDate = isDateKey(inp.value) ? inp.value : null; saveData(); renderSettingsRewards(); renderChildren(); }
+      });
     });
     list.querySelectorAll("[data-reward-icon]").forEach(inp=>{
       inp.addEventListener("change", ()=>{
@@ -1582,16 +1851,84 @@
       });
     });
     wireAutoResize(list);
+    renderNewRewardForm();
   }
+  let newRewardDraft = { kind:"weekly", childIds:null };
+
+  function renderNewRewardForm(){
+    const chipsWrap = document.getElementById("newRewardChildChips");
+    let html = `<button class="child-chip ${newRewardDraft.childIds===null?'active':''}" data-new-reward-all>Tous</button>`;
+    state.children.forEach(c=>{
+      const active = Array.isArray(newRewardDraft.childIds) && newRewardDraft.childIds.includes(c.id);
+      html += `<button class="child-chip ${active?'active':''}" data-new-reward-child="${escapeAttr(c.id)}"><span class="dot" style="background:${c.color}; display:inline-block; margin-right:5px; vertical-align:middle;"></span>${escapeAttr(c.name)}</button>`;
+    });
+    if(Array.isArray(newRewardDraft.childIds) && newRewardDraft.childIds.length===0 && state.children.length>0){
+      html += `<span class="child-chip-none">Aucun enfant (non attribuée)</span>`;
+    }
+    chipsWrap.innerHTML = html;
+    chipsWrap.querySelectorAll("[data-new-reward-all]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{ newRewardDraft.childIds = null; renderNewRewardForm(); });
+    });
+    chipsWrap.querySelectorAll("[data-new-reward-child]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const childId = btn.getAttribute("data-new-reward-child");
+        const current = Array.isArray(newRewardDraft.childIds) ? newRewardDraft.childIds.slice() : [];
+        const idx = current.indexOf(childId);
+        if(idx === -1) current.push(childId); else current.splice(idx,1);
+        newRewardDraft.childIds = current;
+        renderNewRewardForm();
+      });
+    });
+  }
+
+  document.querySelectorAll("[data-new-reward-kind]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      newRewardDraft.kind = btn.getAttribute("data-new-reward-kind");
+      document.querySelectorAll("[data-new-reward-kind]").forEach(b=>b.classList.toggle("active", b===btn));
+      const datesRow = document.getElementById("newRewardDatesRow");
+      const isSpecial = newRewardDraft.kind === "special";
+      datesRow.style.display = isSpecial ? "flex" : "none";
+      if(isSpecial){
+        const startInput = document.getElementById("newRewardStart");
+        const endInput = document.getElementById("newRewardEnd");
+        if(!startInput.value && !endInput.value){
+          const today = new Date();
+          const inAWeek = new Date();
+          inAWeek.setDate(inAWeek.getDate()+7);
+          startInput.value = dateToKey(today);
+          endInput.value = dateToKey(inAWeek);
+        }
+      }
+    });
+  });
+
   document.getElementById("addRewardBtn").addEventListener("click", ()=>{
     const iconInput = document.getElementById("newRewardIcon");
     const labelInput = document.getElementById("newRewardLabel");
     const pointsInput = document.getElementById("newRewardPoints");
+    const startInput = document.getElementById("newRewardStart");
+    const endInput = document.getElementById("newRewardEnd");
     const label = labelInput.value.trim();
     if(!label) return;
-    state.rewards.push({ id: uid(), label, threshold: toInt(pointsInput.value, 50), childIds: null, icon: firstGrapheme(iconInput.value) || "🎟️" });
+    const isSpecial = newRewardDraft.kind === "special";
+    state.rewards.push({
+      id: uid(),
+      label,
+      threshold: toInt(pointsInput.value, 50),
+      childIds: newRewardDraft.childIds,
+      icon: firstGrapheme(iconInput.value) || "🎟️",
+      kind: newRewardDraft.kind,
+      startDate: isSpecial && isDateKey(startInput.value) ? startInput.value : null,
+      endDate: isSpecial && isDateKey(endInput.value) ? endInput.value : null,
+    });
     labelInput.value = "";
     iconInput.value = "🎟️";
+    pointsInput.value = "50";
+    newRewardDraft = { kind:"weekly", childIds:null };
+    document.querySelectorAll("[data-new-reward-kind]").forEach(b=>b.classList.toggle("active", b.getAttribute("data-new-reward-kind")==="weekly"));
+    document.getElementById("newRewardDatesRow").style.display = "none";
+    startInput.value = "";
+    endInput.value = "";
     saveData();
     renderSettingsRewards();
     renderChildren();
@@ -1677,6 +2014,29 @@
     if(tab) switchTab(tab);
   }
   function closeSettings(){ overlay.classList.remove("open"); }
+  document.querySelectorAll("[data-jump-to]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const target = document.getElementById(btn.getAttribute("data-jump-to"));
+      if(target){
+        target.scrollIntoView({behavior:"smooth", block:"center"});
+        setTimeout(()=>target.focus(), 300);
+      }
+    });
+  });
+  document.querySelectorAll("[data-sort-toggle]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const key = btn.getAttribute("data-sort-toggle");
+      sortDirections[key] = sortDirections[key] === "desc" ? "asc" : "desc";
+      if(key === "tasks") renderSettingsTasks();
+      else if(key === "behaviors") renderSettingsBehaviors();
+      else if(key === "rewards") renderSettingsRewards();
+    });
+  });
+  document.querySelectorAll("[data-scroll-top]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      overlay.scrollTo({top:0, behavior:"smooth"});
+    });
+  });
   document.getElementById("openSettings").addEventListener("click", ()=>openSettings());
   document.getElementById("emptyStateBtn").addEventListener("click", ()=>openSettings("children"));
   document.getElementById("closeSettings").addEventListener("click", closeSettings);
@@ -1815,7 +2175,12 @@
   }
 
   document.getElementById("backupRestoreBtn").addEventListener("click", ()=>{
-    attemptRestore(backupImportArea.value, "Ce texte");
+    try{
+      attemptRestore(backupImportArea.value, "Ce texte");
+    }catch(err){
+      console.error("Erreur inattendue lors de la restauration:", err);
+      alert("Une erreur inattendue est survenue pendant la restauration : " + (err && err.message ? err.message : err));
+    }
   });
 
   const backupFileInput = document.getElementById("backupFileInput");
@@ -1836,6 +2201,7 @@
   const pickerListEl = document.getElementById("pickerList");
   const pickerConfirmBtn = document.getElementById("pickerConfirmBtn");
   let pendingSelection = []; // array of "task:id" / "behavior:id", chosen but not yet confirmed
+  let pickerSortDir = "asc";
 
   function openPicker(childId){
     if(currentWeekInfo().closed){ renderChildren(); return; }
@@ -1867,6 +2233,8 @@
     if(term){
       items = items.filter(i=> i.label.toLowerCase().includes(term));
     }
+    const dirP = pickerSortDir === "desc" ? -1 : 1;
+    items.sort((a,b)=> dirP * ((a.points-b.points) || a.label.localeCompare(b.label,"fr")));
     pickerListEl.innerHTML = "";
     if(items.length === 0){
       pickerListEl.innerHTML = `<div class="picker-empty">Aucun résultat 🔍</div>`;
@@ -1907,6 +2275,10 @@
       document.querySelectorAll("[data-picker-filter]").forEach(b=>b.classList.toggle("active", b===btn));
       renderPickerList();
     });
+  });
+  document.getElementById("pickerSortToggle").addEventListener("click", ()=>{
+    pickerSortDir = pickerSortDir === "desc" ? "asc" : "desc";
+    renderPickerList();
   });
   pickerConfirmBtn.addEventListener("click", ()=>{
     if(pendingSelection.length === 0 || !pickerTargetChild) return;
@@ -1992,15 +2364,17 @@
     const child = state.children.find(c=>c.id===rewardsTargetChild);
     if(!child) return;
     rewardsModalTitle.textContent = `🎟️ Récompenses — ${child.name}`;
-    const curKey = state.currentWeekKey;
-    const total = (state.weeks[curKey] && state.weeks[curKey].entries[child.id] && state.weeks[curKey].entries[child.id].total) || 0;
-    const sorted = rewardsForChild(child.id).slice().sort((a,b)=>a.threshold-b.threshold);
-    if(sorted.length === 0){
+    const all = rewardsForChild(child.id);
+    const weekly = all.filter(r=>r.kind!=="special").sort((a,b)=>a.threshold-b.threshold);
+    const special = all.filter(r=>r.kind==="special").sort((a,b)=>(a.startDate||"").localeCompare(b.startDate||""));
+    if(all.length === 0){
       rewardsModalList.innerHTML = `<div class="picker-empty">Aucune récompense configurée. Ajoutes-en dans Réglages > Récompenses.</div>`;
       return;
     }
     rewardsModalList.innerHTML = "";
-    sorted.forEach(r=>{
+
+    function buildWeeklyChip(r){
+      const total = rewardTotalForChild(r, child.id);
       const unlocked = total >= r.threshold;
       const pct = r.threshold > 0 ? Math.max(0, Math.min(100, (total/r.threshold)*100)) : 100;
       const chip = document.createElement("div");
@@ -2012,8 +2386,46 @@
         </div>
         <div class="chip-bar"><div class="chip-bar-fill" style="width:${pct}%;"></div></div>
       `;
-      rewardsModalList.appendChild(chip);
-    });
+      return chip;
+    }
+
+    function buildSpecialChip(r){
+      const total = rewardTotalForChild(r, child.id);
+      const unlocked = total >= r.threshold;
+      const pct = r.threshold > 0 ? Math.max(0, Math.min(100, (total/r.threshold)*100)) : 100;
+      const status = specialRewardStatus(r);
+      const statusLabel = status === "upcoming" ? "À venir" : status === "past" ? "Terminée" : status === "current" ? "En cours" : "";
+      const dateRange = (r.startDate && r.endDate) ? `${fmtDateOnly(r.startDate)} → ${fmtDateOnly(r.endDate)}` : "Dates non définies";
+      const chip = document.createElement("div");
+      chip.className = "reward-chip special" + (unlocked ? " unlocked" : "");
+      chip.innerHTML = `
+        <div class="reward-chip-top">
+          <span>${escapeHtml(r.icon||'🎉')} ${unlocked?'<span class="tick">✓</span> ':''}${escapeHtml(r.label)}</span>
+          <span class="chip-progress">${r.threshold}pt${unlocked?'':' (encore '+(r.threshold-total)+')'}</span>
+        </div>
+        <div class="chip-bar"><div class="chip-bar-fill" style="width:${pct}%;"></div></div>
+        <div style="margin-top:8px; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:.72rem; color:var(--ink-soft);">${dateRange}</span>
+          ${statusLabel ? `<span class="special-status ${status}">${statusLabel}</span>` : ''}
+        </div>
+      `;
+      return chip;
+    }
+
+    if(weekly.length){
+      const h = document.createElement("div");
+      h.style.cssText = "font-size:.75rem; font-weight:800; color:var(--ink-soft); margin-bottom:2px;";
+      h.textContent = "📅 Cette semaine";
+      rewardsModalList.appendChild(h);
+      weekly.forEach(r=>rewardsModalList.appendChild(buildWeeklyChip(r)));
+    }
+    if(special.length){
+      const h = document.createElement("div");
+      h.style.cssText = "font-size:.75rem; font-weight:800; color:var(--ink-soft); margin-top:14px; margin-bottom:2px;";
+      h.textContent = "🎉 Récompenses exceptionnelles";
+      rewardsModalList.appendChild(h);
+      special.forEach(r=>rewardsModalList.appendChild(buildSpecialChip(r)));
+    }
   }
 
   document.getElementById("closeRewards").addEventListener("click", closeRewards);
@@ -2049,7 +2461,7 @@
     });
   }
 
-  /* ================= auto-refresh when the week starts or ends ================= */
+  /* ================= auto-refresh when the week starts/ends or the day changes ================= */
   function refreshIfWeekChanged(){
     if(weekStatusSignature() === lastWeekSignature) return;
     ensureCurrentWeek();
