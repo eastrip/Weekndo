@@ -6,7 +6,7 @@
 <title>WeeknDo — Tableau des points</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Cherry+Bomb+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Slackey&display=swap" rel="stylesheet">
 <style>
   :root{
     --card: #FFFFFF;
@@ -60,19 +60,18 @@
   }
   .topbar-actions{display:flex; gap:10px; flex-shrink:0;}
   .topbar h1{
-    font-family:'Cherry Bomb One', 'Fredoka', sans-serif;
+    font-family:'Slackey', 'Fredoka', sans-serif;
     font-size:3.3rem;
     font-weight:400;
     color:var(--purple-dark);
     letter-spacing:.5px;
     text-transform:uppercase;
-    -webkit-text-stroke:6px var(--ink);
-    paint-order:stroke fill;
   }
   .topbar h1 span{color:var(--gold-dark);}
   .topbar h1 .logo-n{
-    font-size:.75em;
+    font-size:.5em;
     color:#E57241;
+    margin-left:.15em;
   }
   .gear-btn, .history-btn{
     width:46px;height:46px;
@@ -282,62 +281,6 @@
     font-family:'Fredoka', sans-serif;
   }
 
-  .special-banner{
-    margin-top:14px;
-    cursor:pointer;
-  }
-  .special-banner-top{
-    display:flex; align-items:center; gap:6px;
-    margin-bottom:6px;
-  }
-  .special-banner-icon{font-size:.95rem; flex-shrink:0;}
-  .special-banner-text{
-    flex:1;
-    font-weight:700;
-    font-size:.78rem;
-    color:var(--ink-soft);
-    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
-  }
-  .special-banner-tag{
-    flex-shrink:0;
-    font-size:.68rem;
-    font-weight:700;
-    color:var(--gold-dark);
-    font-family:'Fredoka', sans-serif;
-  }
-  .special-banner-bar{
-    width:100%; height:12px;
-    border-radius:999px;
-    border:2px solid var(--ink);
-    background:#F1F3FB;
-    overflow:hidden;
-  }
-  .special-banner-bar-fill{
-    height:100%;
-    background:linear-gradient(to right, var(--gold), var(--gold-dark));
-    border-radius:999px;
-    transition:width .4s cubic-bezier(.34,1.56,.64,1);
-  }
-  .special-banner-bottom{
-    display:flex; justify-content:space-between; align-items:center;
-    gap:8px;
-    margin-top:4px;
-  }
-  .special-banner-dates{
-    font-size:.65rem;
-    font-weight:700;
-    color:var(--ink-soft);
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-  .special-banner-pts{
-    font-size:.68rem;
-    font-weight:700;
-    color:var(--ink-soft);
-    flex-shrink:0;
-  }
-
   .rewards-list{
     width:100%;
     display:flex; flex-direction:column; gap:10px;
@@ -374,25 +317,6 @@
     transition:width .4s cubic-bezier(.34,1.56,.64,1);
   }
   .reward-chip.unlocked .chip-bar-fill{background:var(--green-dark);}
-  .reward-chip.special{
-    border:2px dashed var(--gold-dark);
-    background:linear-gradient(135deg, #FFF6DA, #FFE6D9);
-  }
-  .reward-chip.special.unlocked{
-    border-style:solid;
-    background:linear-gradient(135deg, #FFEFA8, #FFD1C2);
-  }
-  .special-status{
-    display:inline-block;
-    font-size:.65rem;
-    font-weight:800;
-    padding:2px 8px;
-    border-radius:999px;
-    font-family:'Fredoka', sans-serif;
-  }
-  .special-status.upcoming{background:#E3E8F5; color:var(--ink-soft);}
-  .special-status.current{background:var(--gold-dark); color:#fff;}
-  .special-status.past{background:#F1F3FB; color:var(--ink-soft);}
 
   .add-btn{
     background:var(--purple);
@@ -518,13 +442,6 @@
     padding:9px 16px; font-weight:700; font-size:.85rem;
   }
   .primary-btn.full{width:100%; margin-top:4px;}
-  .new-item-box{
-    border:2px solid var(--purple);
-    border-radius:14px;
-    padding:12px;
-    background:#FAF9FF;
-    margin-top:8px;
-  }
   select.select-plain{
     padding:9px; border-radius:10px; border:2px solid var(--line); font-size:.85rem;
   }
@@ -621,6 +538,21 @@
   input, select, textarea{
     font-size:16px !important;
   }
+
+  /* ---------- Alerts / closed week ---------- */
+  .storage-warning{
+    max-width:560px; margin:0 auto 10px;
+    background:#FFE3E3; color:var(--coral-dark);
+    border:2px solid var(--coral-dark); border-radius:var(--radius-sm);
+    padding:10px 14px; font-size:.85rem; font-weight:700;
+  }
+  .week-closed-note{
+    margin-top:10px;
+    background:#FFF6DA; border:2px dashed var(--gold-dark); border-radius:var(--radius-sm);
+    padding:8px 12px; font-size:.82rem; font-weight:700; text-align:center;
+  }
+  .add-btn-compact:disabled{opacity:.4; cursor:not-allowed; box-shadow:none;}
+  .add-btn-compact:disabled:active{transform:none;}
 </style>
 </head>
 <body>
@@ -635,6 +567,7 @@
 </div>
 
 <main>
+  <div id="storageWarning" class="storage-warning" style="display:none;"></div>
   <div id="emptyState" class="empty-state" style="display:none;">
     <div style="font-size:2.2rem;">👋</div>
     <h2>Bienvenue !</h2>
@@ -666,84 +599,48 @@
       <div class="form-row">
         <input type="color" id="newChildColor" value="#FF5FA0">
         <input type="text" id="newChildName" placeholder="Prénom de l'enfant">
-        <button class="icon-btn" id="addChildBtn" style="background:var(--purple); color:#fff; font-weight:800; font-size:1.2rem;">+</button>
+        <button class="icon-btn" id="addChildBtn" style="background:var(--purple); color:#fff;">➕</button>
       </div>
     </div>
 
     <!-- Tasks tab -->
     <div class="tab-panel" data-tab="tasks">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-        <p style="font-size:.8rem; color:var(--ink-soft); margin:0;">Tâches du quotidien (points positifs).</p>
-        <div style="display:flex; gap:6px; flex-shrink:0; margin-left:8px;">
-          <button class="icon-btn" data-sort-toggle="tasks" title="Inverser le tri">↕️</button>
-          <button class="icon-btn" data-jump-to="newTaskLabel" title="Ajouter une tâche">⬇️</button>
-        </div>
-      </div>
+      <p style="font-size:.8rem; color:var(--ink-soft); margin-top:0;">Tâches du quotidien (points positifs).</p>
       <div id="tasksEditList" class="list-block"></div>
-      <div class="new-item-box">
-        <div class="form-row">
-          <input type="text" id="newTaskIcon" placeholder="🙂" maxlength="4" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;" value="📝">
-          <input type="text" id="newTaskLabel" placeholder="Nouvelle tâche">
-          <input type="number" id="newTaskPoints" value="5" step="5">
-        </div>
-        <button class="primary-btn full" id="addTaskBtn">+ Ajouter cette tâche</button>
+      <div class="form-row">
+        <input type="text" id="newTaskIcon" placeholder="🙂" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;" value="📝">
+        <input type="text" id="newTaskLabel" placeholder="Nouvelle tâche">
+        <input type="number" id="newTaskPoints" value="5" step="5">
+        <button class="icon-btn" id="addTaskBtn" style="background:var(--purple); color:#fff;">➕</button>
       </div>
-      <button class="icon-btn" data-scroll-top style="width:100%; margin-top:14px; background:#F1F3FB;" title="Retour en haut">⬆️ Retour en haut</button>
     </div>
 
     <!-- Behaviors tab -->
     <div class="tab-panel" data-tab="behaviors">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-        <p style="font-size:.8rem; color:var(--ink-soft); margin:0;">Bonus / malus de comportement (points positifs ou négatifs).</p>
-        <div style="display:flex; gap:6px; flex-shrink:0; margin-left:8px;">
-          <button class="icon-btn" data-sort-toggle="behaviors" title="Inverser le tri">↕️</button>
-          <button class="icon-btn" data-jump-to="newBehaviorLabel" title="Ajouter un comportement">⬇️</button>
-        </div>
-      </div>
+      <p style="font-size:.8rem; color:var(--ink-soft); margin-top:0;">Bonus / malus de comportement (points positifs ou négatifs).</p>
       <div id="behaviorsEditList" class="list-block"></div>
-      <div class="new-item-box">
-        <div class="form-row">
-          <input type="text" id="newBehaviorLabel" placeholder="Nouveau comportement">
-          <input type="number" id="newBehaviorPoints" value="10" step="5">
-        </div>
-        <button class="primary-btn full" id="addBehaviorBtn">+ Ajouter ce comportement</button>
+      <div class="form-row">
+        <input type="text" id="newBehaviorLabel" placeholder="Nouveau comportement">
+        <input type="number" id="newBehaviorPoints" value="10" step="5">
+        <button class="icon-btn" id="addBehaviorBtn" style="background:var(--purple); color:#fff;">➕</button>
       </div>
-      <button class="icon-btn" data-scroll-top style="width:100%; margin-top:14px; background:#F1F3FB;" title="Retour en haut">⬆️ Retour en haut</button>
     </div>
 
     <!-- Rewards tab -->
     <div class="tab-panel" data-tab="rewards">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-        <p style="font-size:.8rem; color:var(--ink-soft); margin:0;">Récompenses hebdomadaires (basées sur le score de la semaine) ou exceptionnelles (avec des dates de début/fin, ex: sortie à Astérix). Choisis "Tous", un ou plusieurs enfants, ou "Aucun".</p>
-        <div style="display:flex; gap:6px; flex-shrink:0; margin-left:8px;">
-          <button class="icon-btn" data-sort-toggle="rewards" title="Inverser le tri">↕️</button>
-          <button class="icon-btn" data-jump-to="newRewardLabel" title="Ajouter une récompense">⬇️</button>
-        </div>
-      </div>
+      <p style="font-size:.8rem; color:var(--ink-soft); margin-top:0;">Récompenses débloquées selon le score de la semaine. Choisis "Tous", un ou plusieurs enfants, ou "Aucun" si elle n'est pas attribuée cette semaine.</p>
       <div id="rewardsEditList" class="list-block"></div>
-      <div class="new-item-box">
-        <div class="form-row" style="margin-bottom:8px;">
-          <input type="text" id="newRewardIcon" placeholder="🎟️" maxlength="4" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;" value="🎟️">
-          <input type="text" id="newRewardLabel" placeholder="Récompense (ex: Sortie au parc)">
-          <input type="number" id="newRewardPoints" value="50" step="5">
-        </div>
-        <div class="child-chips" style="margin-bottom:8px;">
-          <button class="child-chip active" data-new-reward-kind="weekly">📅 Hebdomadaire</button>
-          <button class="child-chip" data-new-reward-kind="special">🎉 Exceptionnelle</button>
-        </div>
-        <div class="form-row" id="newRewardDatesRow" style="margin-bottom:8px; display:none;">
-          <input type="date" id="newRewardStart" style="flex:1; padding:9px 10px; border-radius:10px; border:2px solid var(--line); font-size:.85rem;">
-          <input type="date" id="newRewardEnd" style="flex:1; padding:9px 10px; border-radius:10px; border:2px solid var(--line); font-size:.85rem;">
-        </div>
-        <div class="child-chips" id="newRewardChildChips" style="margin-bottom:8px;"></div>
-        <button class="primary-btn full" id="addRewardBtn">+ Ajouter cette récompense</button>
+      <div class="form-row">
+        <input type="text" id="newRewardIcon" placeholder="🎟️" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;" value="🎟️">
+        <input type="text" id="newRewardLabel" placeholder="Récompense (ex: Sortie au parc)">
+        <input type="number" id="newRewardPoints" value="50" step="5">
+        <button class="icon-btn" id="addRewardBtn" style="background:var(--purple); color:#fff;">➕</button>
       </div>
-      <button class="icon-btn" data-scroll-top style="width:100%; margin-top:14px; background:#F1F3FB;" title="Retour en haut">⬆️ Retour en haut</button>
     </div>
 
     <!-- Week tab -->
     <div class="tab-panel" data-tab="week">
-      <p style="font-size:.8rem; color:var(--ink-soft); margin-top:0;">Choisis quand la semaine commence et se termine. Les jauges se remettent à zéro au début de chaque nouvelle semaine.</p>
+      <p style="font-size:.8rem; color:var(--ink-soft); margin-top:0;">Choisis quand la semaine commence et se termine. Après la fin, la semaine est terminée : les jauges restent affichées pour profiter des récompenses, et on ne peut plus ajouter de points. Elles repartent à zéro au début de la semaine suivante. Si tu changes le jour de début, les points de la semaine en cours sont conservés.</p>
       <div class="list-block">
         <h3>Début de semaine</h3>
         <div class="form-row">
@@ -819,7 +716,6 @@
         <button class="tab-btn active" data-picker-filter="all">Tout</button>
         <button class="tab-btn" data-picker-filter="task">✅ Tâches</button>
         <button class="tab-btn" data-picker-filter="behavior">🌟 Comportements</button>
-        <button class="icon-btn" id="pickerSortToggle" title="Inverser le tri" style="margin-left:auto;">↕️</button>
       </div>
       <div id="pickerList" class="picker-list"></div>
       <button class="add-btn" id="pickerConfirmBtn" style="margin-top:16px;" disabled>✅ Valider</button>
@@ -899,70 +795,174 @@
     ["Argent de poche bonus",120,"💰"],
   ];
 
-  // 0=Dimanche ... 6=Samedi. Default keeps the original behavior: Samedi 00:00 -> Vendredi 23:59
-  const DEFAULT_WEEK_SETTINGS = { startDay:6, startTime:"00:00", endDay:5, endTime:"23:59" };
+  // 0=Dimanche ... 6=Samedi. Default: Lundi 00:00 -> Vendredi 23:59, so the week is "closed"
+  // during the weekend and the gauges keep showing the earned rewards until Monday.
+  const DEFAULT_WEEK_SETTINGS = { startDay:1, startTime:"00:00", endDay:5, endTime:"23:59" };
 
   function uid(){ return Math.random().toString(36).slice(2,10) + Date.now().toString(36); }
+
+  /* ---------- small helpers ---------- */
+  function toInt(v, def){
+    const n = parseInt(v, 10);
+    return Number.isFinite(n) ? n : def;
+  }
+  function isHexColor(c){ return typeof c === "string" && /^#[0-9a-fA-F]{6}$/.test(c); }
+  function isTimeStr(t){ return typeof t === "string" && /^([01]\d|2[0-3]):[0-5]\d$/.test(t); }
+  function isValidDateStr(s){ return typeof s === "string" && !isNaN(new Date(s).getTime()); }
+  // first user-perceived character (keeps composed emojis like 👨‍👩‍👧 intact)
+  function firstGrapheme(str){
+    str = String(str == null ? "" : str).trim();
+    if(!str) return "";
+    if(typeof Intl !== "undefined" && Intl.Segmenter){
+      const it = new Intl.Segmenter("fr", {granularity:"grapheme"}).segment(str)[Symbol.iterator]().next();
+      return it.done ? "" : it.value.segment;
+    }
+    return Array.from(str)[0];
+  }
 
   function defaultData(){
     return {
       children: [],
       tasks: DEFAULT_TASKS.map(([label,points,icon])=>({id:uid(), label, points, icon})),
       behaviors: DEFAULT_BEHAVIORS.map(([label,points])=>({id:uid(), label, points})),
-      rewards: DEFAULT_REWARDS.map(([label,threshold,icon])=>({id:uid(), label, threshold, childIds:null, icon, kind:"weekly", startDate:null, endDate:null})),
+      rewards: DEFAULT_REWARDS.map(([label,threshold,icon])=>({id:uid(), label, threshold, childIds:null, icon})),
       weeks: {},
       weekSettings: { ...DEFAULT_WEEK_SETTINGS }
     };
   }
 
   function loadData(){
+    let raw = null;
     try{
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if(!raw) return defaultData();
-      const parsed = JSON.parse(raw);
-      return normalizeData(parsed);
+      raw = localStorage.getItem(STORAGE_KEY);
+    }catch(e){
+      console.error("Stockage local inaccessible.", e);
+      showStorageWarning();
+      return defaultData();
+    }
+    if(!raw) return defaultData();
+    try{
+      return normalizeData(JSON.parse(raw));
     }catch(e){
       console.error("Erreur de lecture des données, réinitialisation.", e);
+      // keep a copy of the unreadable data instead of silently overwriting it
+      try{ localStorage.setItem(STORAGE_KEY + "_illisible_" + Date.now(), raw); }catch(_){}
       return defaultData();
     }
   }
 
+  // Rebuilds a clean, complete data object from anything (old version, hand-edited or partial backup).
   function normalizeData(parsed){
-    if(!parsed || typeof parsed !== "object") throw new Error("invalid data");
-    // basic shape safety
-    parsed.children = Array.isArray(parsed.children) ? parsed.children : [];
-    parsed.tasks = Array.isArray(parsed.tasks) ? parsed.tasks : [];
-    parsed.behaviors = Array.isArray(parsed.behaviors) ? parsed.behaviors : [];
-    parsed.rewards = Array.isArray(parsed.rewards) ? parsed.rewards : [];
-    parsed.weeks = (parsed.weeks && typeof parsed.weeks === "object") ? parsed.weeks : {};
-    parsed.weekSettings = parsed.weekSettings || { ...DEFAULT_WEEK_SETTINGS };
-    // migration: make sure every task has an icon
-    parsed.tasks.forEach(t=>{ if(!t.icon) t.icon = "📝"; });
-    // migration: every reward now uses childIds (null = all children, [] = none, [ids] = specific children)
-    parsed.rewards.forEach(r=>{
-      if(r.childIds === undefined){
-        // legacy single childId field
-        r.childIds = (r.childId === undefined || r.childId === null) ? null : [r.childId];
-      }
-      delete r.childId;
-      if(!r.icon) r.icon = "🎟️";
-      if(r.kind !== "special") r.kind = "weekly";
-      if(r.startDate === undefined) r.startDate = null;
-      if(r.endDate === undefined) r.endDate = null;
+    if(!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("invalid data");
+    const isObj = o => !!o && typeof o === "object" && !Array.isArray(o);
+    const str = (v, def) => (typeof v === "string" && v.trim()) ? v : def;
+    const num = (v, def) => { const n = Number(v); return Number.isFinite(n) ? Math.round(n) : def; };
+    const idOf = v => (typeof v === "string" && v) ? v : (typeof v === "number" ? String(v) : uid());
+    const list = v => Array.isArray(v) ? v.filter(isObj) : [];
+
+    const children = list(parsed.children).map((c,i)=>({
+      id: idOf(c.id),
+      name: str(c.name, "Enfant"),
+      color: isHexColor(c.color) ? c.color : CHILD_COLORS[i % CHILD_COLORS.length],
+    }));
+
+    const tasks = list(parsed.tasks).map(t=>({
+      id: idOf(t.id),
+      label: str(t.label, "Tâche"),
+      points: num(t.points, 0),
+      icon: firstGrapheme(t.icon) || "📝",
+    }));
+
+    const behaviors = list(parsed.behaviors).map(b=>({
+      id: idOf(b.id),
+      label: str(b.label, "Comportement"),
+      points: num(b.points, 0),
+    }));
+
+    // childIds: null = all children, [] = none, [ids] = specific children (legacy: single childId)
+    const rewards = list(parsed.rewards).map(r=>{
+      let childIds;
+      if(r.childIds === undefined) childIds = (r.childId === undefined || r.childId === null) ? null : [String(r.childId)];
+      else if(Array.isArray(r.childIds)) childIds = r.childIds.filter(x=>typeof x === "string" || typeof x === "number").map(String);
+      else childIds = null;
+      return {
+        id: idOf(r.id),
+        label: str(r.label, "Récompense"),
+        threshold: num(r.threshold, 0),
+        childIds,
+        icon: firstGrapheme(r.icon) || "🎟️",
+      };
     });
-    return parsed;
+
+    const weeks = {};
+    if(isObj(parsed.weeks)){
+      Object.keys(parsed.weeks).forEach(key=>{
+        const w = parsed.weeks[key];
+        if(!/^\d{4}-\d{2}-\d{2}$/.test(key) || !isObj(w)) return;
+        const entries = {};
+        if(isObj(w.entries)){
+          Object.keys(w.entries).forEach(cid=>{
+            const e = w.entries[cid];
+            if(!isObj(e)) return;
+            const log = list(e.log).map(l=>({
+              logId: idOf(l.logId),
+              label: str(l.label, "Activité"),
+              points: num(l.points, 0),
+              icon: typeof l.icon === "string" && l.icon ? l.icon : null,
+              date: isValidDateStr(l.date) ? l.date : new Date(keyToDate(key)).toISOString(),
+            }));
+            const logSum = log.reduce((s,l)=>s+l.points, 0);
+            entries[cid] = { total: num(e.total, logSum), log };
+          });
+        }
+        const week = { entries };
+        if(isValidDateStr(w.start) && isValidDateStr(w.end)){ week.start = w.start; week.end = w.end; }
+        weeks[key] = week;
+      });
+    }
+
+    const ws = isObj(parsed.weekSettings) ? parsed.weekSettings : {};
+    const day = (v, def) => { const n = toInt(v, NaN); return (n >= 0 && n <= 6) ? n : def; };
+    const weekSettings = {
+      startDay: day(ws.startDay, DEFAULT_WEEK_SETTINGS.startDay),
+      startTime: isTimeStr(ws.startTime) ? ws.startTime : DEFAULT_WEEK_SETTINGS.startTime,
+      endDay: day(ws.endDay, DEFAULT_WEEK_SETTINGS.endDay),
+      endTime: isTimeStr(ws.endTime) ? ws.endTime : DEFAULT_WEEK_SETTINGS.endTime,
+    };
+
+    return { children, tasks, behaviors, rewards, weeks, weekSettings };
+  }
+
+  function showStorageWarning(){
+    const el = document.getElementById("storageWarning");
+    if(!el) return;
+    el.textContent = "⚠️ Impossible d'enregistrer : le navigateur bloque le stockage (navigation privée ?) ou il est plein. Les changements seront perdus en fermant la page — pense à faire une sauvegarde 💾.";
+    el.style.display = "block";
+  }
+  function hideStorageWarning(){
+    const el = document.getElementById("storageWarning");
+    if(el) el.style.display = "none";
   }
 
   function saveData(){
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      hideStorageWarning();
+      return true;
+    }catch(e){
+      console.error("Échec de l'enregistrement.", e);
+      showStorageWarning();
+      return false;
+    }
   }
 
   let state = loadData();
   let pickerTargetChild = null;
-  const sortDirections = { tasks:"asc", behaviors:"asc", rewards:"asc" };
   let pickerFilter = "all";
   let pickerSearch = "";
   let activityTargetChild = null;
+  let rewardsTargetChild = null;
+  let lastWeekSignature = "";
 
   /* ---------- Week helpers (configurable start/end day + time) ---------- */
   function parseTimeStr(t){
@@ -1023,9 +1023,23 @@
   function weekEndOf(weekKey){
     return getWeekEnd(keyToWeekStart(weekKey));
   }
+  // Each week stores its own real start/end, so changing the settings later
+  // doesn't rewrite the dates shown for past weeks in the history.
+  function stampWeek(week, key){
+    const s = keyToWeekStart(key);
+    week.start = s.toISOString();
+    week.end = getWeekEnd(s).toISOString();
+  }
+  function stampMissingWeekRanges(){
+    Object.keys(state.weeks).forEach(k=>{
+      const w = state.weeks[k];
+      if(!w.start || !w.end) stampWeek(w, k);
+    });
+  }
   function fmtRange(weekKey){
-    const s = keyToWeekStart(weekKey);
-    const e = weekEndOf(weekKey);
+    const w = state.weeks[weekKey];
+    const s = (w && w.start) ? new Date(w.start) : keyToWeekStart(weekKey);
+    const e = (w && w.end) ? new Date(w.end) : weekEndOf(weekKey);
     const dOpts = {day:"numeric", month:"short"};
     const tOpts = {hour:"2-digit", minute:"2-digit"};
     return s.toLocaleDateString("fr-FR", dOpts) + " " + s.toLocaleTimeString("fr-FR", tOpts)
@@ -1035,17 +1049,13 @@
     const d = new Date(iso);
     return d.toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit"}) + " " + d.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
   }
-  function fmtDateOnly(dateKey){
-    if(!dateKey) return "";
-    const d = keyToDate(dateKey);
-    return d.toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric"});
-  }
 
   function ensureCurrentWeek(){
     const key = weekKeyOf(new Date());
     if(!state.weeks[key]){
       state.weeks[key] = { entries: {} };
     }
+    if(!state.weeks[key].start || !state.weeks[key].end) stampWeek(state.weeks[key], key);
     state.currentWeekKey = key;
     // ensure every child has an entry bucket in current week
     state.children.forEach(c=>{
@@ -1056,41 +1066,30 @@
     return key;
   }
 
+  // Current week + whether it's over (between the configured end and the next start).
+  function currentWeekInfo(){
+    const key = ensureCurrentWeek();
+    const w = state.weeks[key];
+    const end = new Date(w.end);
+    const nextStart = new Date(w.start);
+    nextStart.setDate(nextStart.getDate() + 7);
+    return { key, closed: Date.now() > end.getTime(), end, nextStart };
+  }
+  function weekStatusSignature(){
+    const key = weekKeyOf(new Date());
+    const w = state.weeks[key];
+    const end = (w && w.end) ? new Date(w.end) : weekEndOf(key);
+    return key + "|" + (Date.now() > end.getTime());
+  }
+  function fmtNextStart(d){
+    return d.toLocaleDateString("fr-FR", {weekday:"long", day:"numeric", month:"long"})
+      + " à " + d.toLocaleTimeString("fr-FR", {hour:"2-digit", minute:"2-digit"});
+  }
+
   function getChildTotal(weekKey, childId){
     const w = state.weeks[weekKey];
     if(!w || !w.entries[childId]) return 0;
     return w.entries[childId].total;
-  }
-
-  function getChildRangeTotal(childId, startDateStr, endDateStr){
-    if(!startDateStr || !endDateStr) return 0;
-    const start = keyToDate(startDateStr);
-    start.setHours(0,0,0,0);
-    const end = keyToDate(endDateStr);
-    end.setHours(23,59,59,999);
-    let sum = 0;
-    Object.values(state.weeks).forEach(week=>{
-      const entry = week.entries && week.entries[childId];
-      if(!entry || !entry.log) return;
-      entry.log.forEach(item=>{
-        const d = new Date(item.date);
-        if(d >= start && d <= end) sum += item.points;
-      });
-    });
-    return sum;
-  }
-
-  function rewardTotalForChild(reward, childId){
-    if(reward.kind === "special") return getChildRangeTotal(childId, reward.startDate, reward.endDate);
-    return getChildTotal(state.currentWeekKey, childId);
-  }
-
-  function specialRewardStatus(reward){
-    if(!reward.startDate || !reward.endDate) return "invalid";
-    const today = dateToKey(new Date());
-    if(today < reward.startDate) return "upcoming";
-    if(today > reward.endDate) return "past";
-    return "current";
   }
 
   /* ================= RENDER: CHILDREN + GAUGES ================= */
@@ -1099,9 +1098,7 @@
   }
 
   function computeMaxScale(){
-    // exceptional (date-range) rewards don't affect the weekly gauge's scale/marks —
-    // their threshold lives on a completely different, custom time-span
-    const rewardMax = state.rewards.filter(r=>r.kind!=="special").reduce((m,r)=>Math.max(m,r.threshold),0);
+    const rewardMax = state.rewards.reduce((m,r)=>Math.max(m,r.threshold),0);
     const curKey = state.currentWeekKey;
     let scoreMax = 0;
     state.children.forEach(c=> scoreMax = Math.max(scoreMax, getChildTotal(curKey,c.id)));
@@ -1132,6 +1129,8 @@
   function renderChildren(){
     const grid = document.getElementById("childrenGrid");
     const empty = document.getElementById("emptyState");
+    const info = currentWeekInfo();
+    lastWeekSignature = weekStatusSignature();
     grid.innerHTML = "";
     if(state.children.length === 0){
       empty.style.display = "block";
@@ -1141,7 +1140,10 @@
     empty.style.display = "none";
     grid.style.display = "flex";
 
-    const curKey = ensureCurrentWeek();
+    const curKey = info.key;
+    const closedNote = info.closed
+      ? `<div class="week-closed-note">🏁 Semaine terminée, place aux récompenses ! Nouvelle semaine ${escapeHtml(fmtNextStart(info.nextStart))}.</div>`
+      : "";
     const minScale = computeMinScale();
     const maxScale = computeMaxScale();
     const range = maxScale - minScale;
@@ -1159,50 +1161,39 @@
       card.className = "child-card";
       card.style.setProperty("--accent", child.color);
 
-      const initials = child.name.trim().slice(0,1).toUpperCase() || "?";
+      const initials = escapeHtml(firstGrapheme(child.name).toUpperCase() || "?");
+      const cid = escapeAttr(child.id);
       const childRewards = rewardsForChild(child.id);
-      const unlockedCount = childRewards.filter(r => rewardTotalForChild(r, child.id) >= r.threshold).length;
+      const unlockedCount = childRewards.filter(r => total >= r.threshold).length;
 
-      // reward marks html (vertical dashed lines on the horizontal gauge) — weekly rewards only,
-      // since an exceptional (date-range) reward's threshold lives on a different time-span
+      // reward marks html (vertical dashed lines on the horizontal gauge)
       let rewardMarksHtml = "";
       let rewardIconsHtml = "";
-      childRewards.filter(r=>r.kind!=="special").slice().sort((a,b)=>a.threshold-b.threshold).forEach(r=>{
+      const sortedChildRewards = childRewards.slice().sort((a,b)=>a.threshold-b.threshold);
+      // group rewards that land on (almost) the same spot on the gauge so their icons
+      // can be fanned out side-by-side instead of stacking directly on top of each other
+      const ICON_COLLISION_PCT = 3; // threshold proximity (in % of gauge width) treated as a tie
+      const groups = [];
+      sortedChildRewards.forEach(r=>{
         const posPct = Math.max(0, Math.min(100, ((r.threshold - minScale) / range) * 100));
-        rewardMarksHtml += `<div class="gauge-reward-mark" style="left:${posPct}%;"></div>`;
-        rewardIconsHtml += `<span class="gauge-reward-icon" style="left:${posPct}%;" title="${escapeAttr(r.label)} (${r.threshold}pt)">${escapeHtml(r.icon||'🎟️')}</span>`;
+        const lastGroup = groups[groups.length - 1];
+        if(lastGroup && Math.abs(posPct - lastGroup.posPct) < ICON_COLLISION_PCT){
+          lastGroup.items.push(r);
+        } else {
+          groups.push({ posPct, items: [r] });
+        }
       });
-
-      // banners for every currently-active exceptional reward, so none stay hidden if several overlap
-      const activeSpecials = childRewards.filter(r=>{
-        if(r.kind!=="special") return false;
-        const status = specialRewardStatus(r);
-        return status==="current" || status==="past";
-      });
-      let specialBannerHtml = "";
-      activeSpecials.forEach(activeSpecial=>{
-        const specialTotal = rewardTotalForChild(activeSpecial, child.id);
-        const specialPct = activeSpecial.threshold > 0 ? Math.max(0, Math.min(100, (specialTotal/activeSpecial.threshold)*100)) : 100;
-        const specialUnlocked = specialTotal >= activeSpecial.threshold;
-        const specialStatus = specialRewardStatus(activeSpecial);
-        let tagLabel;
-        if(specialUnlocked) tagLabel = "✓ Atteinte";
-        else if(specialStatus === "past") tagLabel = "Terminée";
-        else tagLabel = "En cours";
-        specialBannerHtml += `
-        <div class="special-banner" data-rewards-for="${child.id}">
-          <div class="special-banner-top">
-            <span class="special-banner-icon">${escapeHtml(activeSpecial.icon||'🎉')}</span>
-            <span class="special-banner-text">${escapeHtml(activeSpecial.label)}</span>
-            <span class="special-banner-tag">${tagLabel}</span>
-          </div>
-          <div class="special-banner-bar"><div class="special-banner-bar-fill" style="width:${specialPct}%;"></div></div>
-          <div class="special-banner-bottom">
-            <span class="special-banner-dates">${fmtDateOnly(activeSpecial.startDate)} → ${fmtDateOnly(activeSpecial.endDate)}</span>
-            <span class="special-banner-pts">${specialTotal} / ${activeSpecial.threshold} pts</span>
-          </div>
-        </div>
-      `;
+      const ICON_OFFSET_PX = 16;
+      groups.forEach(group=>{
+        group.items.forEach(r=>{
+          const posPct = Math.max(0, Math.min(100, ((r.threshold - minScale) / range) * 100));
+          rewardMarksHtml += `<div class="gauge-reward-mark" style="left:${posPct}%;"></div>`;
+        });
+        group.items.forEach((r, idx)=>{
+          const offsetPx = (idx - (group.items.length - 1) / 2) * ICON_OFFSET_PX;
+          const leftStyle = offsetPx === 0 ? `${group.posPct}%` : `calc(${group.posPct}% + ${offsetPx}px)`;
+          rewardIconsHtml += `<span class="gauge-reward-icon" style="left:${leftStyle};" title="${escapeAttr(r.label)} (${r.threshold}pt)">${escapeHtml(r.icon||'🎟️')}</span>`;
+        });
       });
 
       const activityCount = entry.log.length;
@@ -1214,11 +1205,11 @@
           </div>
           <div class="score-row">
             <div class="score-badge ${total<0?'negative':''}">${total} pts</div>
-            <button class="rewards-btn${unlockedCount>0?' has-unlocked':''}" data-rewards-for="${child.id}" title="Récompenses">🎟️${unlockedCount>0?`<span class="rewards-btn-badge">${unlockedCount}</span>`:''}</button>
+            <button class="rewards-btn${unlockedCount>0?' has-unlocked':''}" data-rewards-for="${cid}" title="Récompenses" aria-label="Récompenses">🎟️${unlockedCount>0?`<span class="rewards-btn-badge">${unlockedCount}</span>`:''}</button>
           </div>
         </div>
         <div class="gauge-row">
-          <button class="add-btn-compact" data-picker-for="${child.id}" title="Ajouter">+</button>
+          <button class="add-btn-compact" data-picker-for="${cid}" title="${info.closed ? 'Semaine terminée' : 'Ajouter'}" aria-label="Ajouter"${info.closed ? ' disabled' : ''}>➕</button>
           <div class="gauge-track-wrap">
             <div class="gauge-reward-icons">${rewardIconsHtml}</div>
             <div class="gauge" style="background:${gaugeGradient};">
@@ -1228,9 +1219,9 @@
               ${rewardMarksHtml}
             </div>
           </div>
-          <button class="activity-icon-btn" data-activity-for="${child.id}" title="Activité récente">🕒${activityCount?`<span class="activity-badge">${activityCount}</span>`:''}</button>
+          <button class="activity-icon-btn" data-activity-for="${cid}" title="Activité récente" aria-label="Activité récente">🕒${activityCount?`<span class="activity-badge">${activityCount}</span>`:''}</button>
         </div>
-        ${specialBannerHtml}
+        ${closedNote}
       `;
       grid.appendChild(card);
     });
@@ -1261,8 +1252,10 @@
     const [kind, id] = value.split(":");
     const source = kind === "task" ? state.tasks.find(t=>t.id===id) : state.behaviors.find(b=>b.id===id);
     if(!source) return;
-    const curKey = ensureCurrentWeek();
-    const entry = state.weeks[curKey].entries[childId];
+    const info = currentWeekInfo();
+    if(info.closed) return;
+    const entry = state.weeks[info.key].entries[childId];
+    if(!entry) return;
     entry.log.push({ logId: uid(), label: source.label, points: source.points, icon: source.icon || null, date: new Date().toISOString() });
     entry.total += source.points;
     saveData();
@@ -1273,7 +1266,8 @@
 
   function removeLogEntry(childId, logId){
     const curKey = state.currentWeekKey;
-    const entry = state.weeks[curKey].entries[childId];
+    const week = state.weeks[curKey];
+    const entry = week && week.entries[childId];
     if(!entry) return;
     const idx = entry.log.findIndex(l=>l.logId===logId);
     if(idx === -1) return;
@@ -1315,30 +1309,11 @@
       card.innerHTML = `
         <div class="week-card-header">
           <span class="range">${fmtRange(key)}</span>
-          <div style="display:flex; align-items:center; gap:8px;">
-            ${isCurrent ? '<span class="tag">Semaine en cours</span>' : ''}
-            <button class="icon-btn danger" data-delete-week="${key}" title="Supprimer cette semaine">🗑️</button>
-          </div>
+          ${isCurrent ? `<span class="tag">${(week.end && Date.now() > new Date(week.end).getTime()) ? 'Terminée 🏁' : 'Semaine en cours'}</span>` : ''}
         </div>
         <div class="week-body">${rowsHtml}</div>
       `;
       container.appendChild(card);
-    });
-    container.querySelectorAll("[data-delete-week]").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        const key = btn.getAttribute("data-delete-week");
-        const label = fmtRange(key);
-        if(confirm(`Supprimer définitivement la semaine du ${label} ? Cette action est irréversible.`)){
-          delete state.weeks[key];
-          saveData();
-          if(key === state.currentWeekKey){
-            // recreate an empty current week immediately so the app stays in a valid state
-            ensureCurrentWeek();
-          }
-          renderHistory();
-          renderChildren();
-        }
-      });
     });
   }
 
@@ -1350,9 +1325,9 @@
       const row = document.createElement("div");
       row.className = "form-row";
       row.innerHTML = `
-        <input type="color" value="${c.color}" data-child-color="${c.id}">
-        <input type="text" value="${escapeAttr(c.name)}" data-child-name="${c.id}">
-        <button class="icon-btn danger" data-child-remove="${c.id}">🗑️</button>
+        <input type="color" value="${escapeAttr(c.color)}" data-child-color="${escapeAttr(c.id)}">
+        <input type="text" value="${escapeAttr(c.name)}" data-child-name="${escapeAttr(c.id)}">
+        <button class="icon-btn danger" data-child-remove="${escapeAttr(c.id)}" aria-label="Supprimer">🗑️</button>
       `;
       list.appendChild(row);
     });
@@ -1410,8 +1385,6 @@
   function renderEditableList(containerId, arr, pointsKey, onSave, onRemove){
     const list = document.getElementById(containerId);
     list.innerHTML = "";
-    const dirB = sortDirections.behaviors === "desc" ? -1 : 1;
-    arr.sort((a,b)=> dirB * ((a[pointsKey]-b[pointsKey]) || a.label.localeCompare(b.label,"fr")));
     arr.forEach(item=>{
       const wrap = document.createElement("div");
       wrap.style.border = "2px solid var(--line)";
@@ -1419,10 +1392,10 @@
       wrap.style.padding = "10px";
       wrap.style.marginBottom = "8px";
       wrap.innerHTML = `
-        <textarea data-label="${item.id}" rows="1" class="auto-textarea" style="width:100%; margin-bottom:8px; padding:9px 10px; border-radius:10px; border:2px solid var(--line); box-sizing:border-box; font-family:inherit; font-size:.88rem; resize:none; overflow:hidden;">${escapeHtml(item.label)}</textarea>
+        <textarea data-label="${escapeAttr(item.id)}" rows="1" class="auto-textarea" style="width:100%; margin-bottom:8px; padding:9px 10px; border-radius:10px; border:2px solid var(--line); box-sizing:border-box; font-family:inherit; font-size:.88rem; resize:none; overflow:hidden;">${escapeHtml(item.label)}</textarea>
         <div class="form-row">
-          <input type="number" value="${item[pointsKey]}" step="5" data-points="${item.id}">
-          <button class="icon-btn danger" data-remove="${item.id}" style="margin-left:auto;">🗑️</button>
+          <input type="number" value="${item[pointsKey]}" step="5" data-points="${escapeAttr(item.id)}">
+          <button class="icon-btn danger" data-remove="${escapeAttr(item.id)}" style="margin-left:auto;">🗑️</button>
         </div>
       `;
       list.appendChild(wrap);
@@ -1436,7 +1409,7 @@
     list.querySelectorAll("[data-points]").forEach(inp=>{
       inp.addEventListener("change", ()=>{
         const item = arr.find(x=>x.id===inp.getAttribute("data-points"));
-        if(item){ item[pointsKey] = parseInt(inp.value,10) || 0; onSave(); }
+        if(item){ item[pointsKey] = toInt(inp.value, item[pointsKey]); onSave(); }
       });
     });
     list.querySelectorAll("[data-remove]").forEach(btn=>{
@@ -1450,8 +1423,6 @@
   function renderTasksEditList(){
     const list = document.getElementById("tasksEditList");
     list.innerHTML = "";
-    const dirT = sortDirections.tasks === "desc" ? -1 : 1;
-    state.tasks.sort((a,b)=> dirT * ((a.points-b.points) || a.label.localeCompare(b.label,"fr")));
     state.tasks.forEach(item=>{
       const row = document.createElement("div");
       row.style.border = "2px solid var(--line)";
@@ -1459,11 +1430,11 @@
       row.style.padding = "10px";
       row.style.marginBottom = "8px";
       row.innerHTML = `
-        <textarea data-label="${item.id}" rows="1" class="auto-textarea" style="width:100%; margin-bottom:8px; padding:9px 10px; border-radius:10px; border:2px solid var(--line); box-sizing:border-box; font-family:inherit; font-size:.88rem; resize:none; overflow:hidden;">${escapeHtml(item.label)}</textarea>
+        <textarea data-label="${escapeAttr(item.id)}" rows="1" class="auto-textarea" style="width:100%; margin-bottom:8px; padding:9px 10px; border-radius:10px; border:2px solid var(--line); box-sizing:border-box; font-family:inherit; font-size:.88rem; resize:none; overflow:hidden;">${escapeHtml(item.label)}</textarea>
         <div class="form-row">
-          <input type="text" value="${escapeAttr(item.icon||'📝')}" maxlength="4" data-icon="${item.id}" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;">
-          <input type="number" value="${item.points}" step="5" data-points="${item.id}">
-          <button class="icon-btn danger" data-remove="${item.id}" style="margin-left:auto;">🗑️</button>
+          <input type="text" value="${escapeAttr(item.icon||'📝')}" data-icon="${escapeAttr(item.id)}" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;">
+          <input type="number" value="${item.points}" step="5" data-points="${escapeAttr(item.id)}">
+          <button class="icon-btn danger" data-remove="${escapeAttr(item.id)}" style="margin-left:auto;">🗑️</button>
         </div>
       `;
       list.appendChild(row);
@@ -1471,7 +1442,7 @@
     list.querySelectorAll("[data-icon]").forEach(inp=>{
       inp.addEventListener("change", ()=>{
         const item = state.tasks.find(x=>x.id===inp.getAttribute("data-icon"));
-        if(item){ item.icon = inp.value.trim() || "📝"; saveData(); renderChildren(); }
+        if(item){ item.icon = firstGrapheme(inp.value) || "📝"; inp.value = item.icon; saveData(); renderChildren(); }
       });
     });
     list.querySelectorAll("[data-label]").forEach(inp=>{
@@ -1483,7 +1454,7 @@
     list.querySelectorAll("[data-points]").forEach(inp=>{
       inp.addEventListener("change", ()=>{
         const item = state.tasks.find(x=>x.id===inp.getAttribute("data-points"));
-        if(item){ item.points = parseInt(inp.value,10) || 0; saveData(); renderChildren(); }
+        if(item){ item.points = toInt(inp.value, item.points); saveData(); renderChildren(); }
       });
     });
     list.querySelectorAll("[data-remove]").forEach(btn=>{
@@ -1504,7 +1475,7 @@
     const pointsInput = document.getElementById("newTaskPoints");
     const label = labelInput.value.trim();
     if(!label) return;
-    state.tasks.push({ id: uid(), label, points: parseInt(pointsInput.value,10) || 5, icon: iconInput.value.trim() || "📝" });
+    state.tasks.push({ id: uid(), label, points: toInt(pointsInput.value, 5), icon: firstGrapheme(iconInput.value) || "📝" });
     labelInput.value = "";
     iconInput.value = "📝";
     saveData();
@@ -1523,7 +1494,7 @@
     const pointsInput = document.getElementById("newBehaviorPoints");
     const label = labelInput.value.trim();
     if(!label) return;
-    state.behaviors.push({ id: uid(), label, points: parseInt(pointsInput.value,10) || 0 });
+    state.behaviors.push({ id: uid(), label, points: toInt(pointsInput.value, 0) });
     labelInput.value = "";
     saveData();
     renderSettingsBehaviors();
@@ -1533,8 +1504,6 @@
   function renderSettingsRewards(){
     const list = document.getElementById("rewardsEditList");
     list.innerHTML = "";
-    const dirR = sortDirections.rewards === "desc" ? -1 : 1;
-    state.rewards.sort((a,b)=> dirR * ((a.threshold-b.threshold) || a.label.localeCompare(b.label,"fr")));
     state.rewards.forEach(item=>{
       const wrap = document.createElement("div");
       wrap.style.border = "2px solid var(--line)";
@@ -1545,73 +1514,33 @@
       const isAll = item.childIds === null || item.childIds === undefined;
       const selectedIds = Array.isArray(item.childIds) ? item.childIds : [];
 
-      let chipsHtml = `<button class="child-chip ${isAll ? 'active' : ''}" data-chip-all="${item.id}">Tous</button>`;
+      let chipsHtml = `<button class="child-chip ${isAll ? 'active' : ''}" data-chip-all="${escapeAttr(item.id)}">Tous</button>`;
       state.children.forEach(c=>{
         const active = !isAll && selectedIds.includes(c.id);
-        chipsHtml += `<button class="child-chip ${active ? 'active' : ''}" data-chip-child="${item.id}" data-child-id="${c.id}"><span class="dot" style="background:${c.color}; display:inline-block; margin-right:5px; vertical-align:middle;"></span>${escapeAttr(c.name)}</button>`;
+        chipsHtml += `<button class="child-chip ${active ? 'active' : ''}" data-chip-child="${escapeAttr(item.id)}" data-child-id="${escapeAttr(c.id)}"><span class="dot" style="background:${c.color}; display:inline-block; margin-right:5px; vertical-align:middle;"></span>${escapeAttr(c.name)}</button>`;
       });
       if(!isAll && selectedIds.length === 0 && state.children.length > 0){
-        chipsHtml += `<span class="child-chip-none">Aucun enfant (non attribuée)</span>`;
+        chipsHtml += `<span class="child-chip-none">Aucun enfant (pas attribuée cette semaine)</span>`;
       }
       if(state.children.length === 0){
         chipsHtml += `<span class="child-chip-none">Ajoute des enfants pour choisir à qui l'attribuer</span>`;
       }
 
-      const isSpecial = item.kind === "special";
-
       wrap.innerHTML = `
-        <textarea data-reward-label="${item.id}" rows="1" class="auto-textarea" style="width:100%; margin-bottom:8px; padding:9px 10px; border-radius:10px; border:2px solid var(--line); box-sizing:border-box; font-family:inherit; font-size:.88rem; resize:none; overflow:hidden;">${escapeHtml(item.label)}</textarea>
+        <textarea data-reward-label="${escapeAttr(item.id)}" rows="1" class="auto-textarea" style="width:100%; margin-bottom:8px; padding:9px 10px; border-radius:10px; border:2px solid var(--line); box-sizing:border-box; font-family:inherit; font-size:.88rem; resize:none; overflow:hidden;">${escapeHtml(item.label)}</textarea>
         <div class="form-row" style="margin-bottom:8px;">
-          <input type="text" value="${escapeAttr(item.icon||'🎟️')}" maxlength="4" data-reward-icon="${item.id}" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;">
-          <input type="number" value="${item.threshold}" step="5" data-reward-points="${item.id}">
-          <button class="icon-btn danger" data-reward-remove="${item.id}" style="margin-left:auto;">🗑️</button>
+          <input type="text" value="${escapeAttr(item.icon||'🎟️')}" data-reward-icon="${escapeAttr(item.id)}" style="flex:0 0 44px; width:44px; text-align:center; padding:9px 4px; border-radius:10px; border:2px solid var(--line); font-size:1.1rem;">
+          <input type="number" value="${item.threshold}" step="5" data-reward-points="${escapeAttr(item.id)}">
+          <button class="icon-btn danger" data-reward-remove="${escapeAttr(item.id)}" style="margin-left:auto;">🗑️</button>
         </div>
-        <div class="child-chips" style="margin-bottom:8px;">
-          <button class="child-chip ${!isSpecial ? 'active' : ''}" data-reward-kind="${item.id}" data-kind-value="weekly">📅 Hebdomadaire</button>
-          <button class="child-chip ${isSpecial ? 'active' : ''}" data-reward-kind="${item.id}" data-kind-value="special">🎉 Exceptionnelle</button>
-        </div>
-        ${isSpecial ? `
-        <div class="form-row" style="margin-bottom:4px;">
-          <input type="date" value="${item.startDate||''}" data-reward-start="${item.id}" style="flex:1; padding:9px 10px; border-radius:10px; border:2px solid ${item.startDate ? 'var(--line)' : 'var(--coral)'}; font-size:.85rem;">
-          <input type="date" value="${item.endDate||''}" data-reward-end="${item.id}" style="flex:1; padding:9px 10px; border-radius:10px; border:2px solid ${item.endDate ? 'var(--line)' : 'var(--coral)'}; font-size:.85rem;">
-        </div>
-        ${(!item.startDate || !item.endDate) ? `<div style="font-size:.72rem; color:var(--coral-dark); font-weight:700; margin-bottom:8px;">⚠️ Ajoute une date de début et de fin, sinon cette récompense ne comptera aucun point.</div>` : ``}
-        ` : ``}
         <div class="child-chips">${chipsHtml}</div>
       `;
       list.appendChild(wrap);
     });
-    list.querySelectorAll("[data-reward-kind]").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        const item = state.rewards.find(x=>x.id===btn.getAttribute("data-reward-kind"));
-        if(!item) return;
-        item.kind = btn.getAttribute("data-kind-value");
-        if(item.kind === "special" && !item.startDate && !item.endDate){
-          const today = new Date();
-          const inAWeek = new Date();
-          inAWeek.setDate(inAWeek.getDate() + 7);
-          item.startDate = dateToKey(today);
-          item.endDate = dateToKey(inAWeek);
-        }
-        saveData(); renderSettingsRewards(); renderChildren();
-      });
-    });
-    list.querySelectorAll("[data-reward-start]").forEach(inp=>{
-      inp.addEventListener("change", ()=>{
-        const item = state.rewards.find(x=>x.id===inp.getAttribute("data-reward-start"));
-        if(item){ item.startDate = inp.value || null; saveData(); renderChildren(); }
-      });
-    });
-    list.querySelectorAll("[data-reward-end]").forEach(inp=>{
-      inp.addEventListener("change", ()=>{
-        const item = state.rewards.find(x=>x.id===inp.getAttribute("data-reward-end"));
-        if(item){ item.endDate = inp.value || null; saveData(); renderChildren(); }
-      });
-    });
     list.querySelectorAll("[data-reward-icon]").forEach(inp=>{
       inp.addEventListener("change", ()=>{
         const item = state.rewards.find(x=>x.id===inp.getAttribute("data-reward-icon"));
-        if(item){ item.icon = inp.value.trim() || "🎟️"; saveData(); renderChildren(); }
+        if(item){ item.icon = firstGrapheme(inp.value) || "🎟️"; inp.value = item.icon; saveData(); renderChildren(); }
       });
     });
     list.querySelectorAll("[data-reward-label]").forEach(inp=>{
@@ -1623,7 +1552,7 @@
     list.querySelectorAll("[data-reward-points]").forEach(inp=>{
       inp.addEventListener("change", ()=>{
         const item = state.rewards.find(x=>x.id===inp.getAttribute("data-reward-points"));
-        if(item){ item.threshold = parseInt(inp.value,10) || 0; saveData(); renderChildren(); }
+        if(item){ item.threshold = toInt(inp.value, item.threshold); saveData(); renderChildren(); }
       });
     });
     list.querySelectorAll("[data-chip-all]").forEach(btn=>{
@@ -1653,84 +1582,16 @@
       });
     });
     wireAutoResize(list);
-    renderNewRewardForm();
   }
-  let newRewardDraft = { kind:"weekly", childIds:null };
-
-  function renderNewRewardForm(){
-    const chipsWrap = document.getElementById("newRewardChildChips");
-    let html = `<button class="child-chip ${newRewardDraft.childIds===null?'active':''}" data-new-reward-all>Tous</button>`;
-    state.children.forEach(c=>{
-      const active = Array.isArray(newRewardDraft.childIds) && newRewardDraft.childIds.includes(c.id);
-      html += `<button class="child-chip ${active?'active':''}" data-new-reward-child="${c.id}"><span class="dot" style="background:${c.color}; display:inline-block; margin-right:5px; vertical-align:middle;"></span>${escapeAttr(c.name)}</button>`;
-    });
-    if(Array.isArray(newRewardDraft.childIds) && newRewardDraft.childIds.length===0 && state.children.length>0){
-      html += `<span class="child-chip-none">Aucun enfant (non attribuée)</span>`;
-    }
-    chipsWrap.innerHTML = html;
-    chipsWrap.querySelectorAll("[data-new-reward-all]").forEach(btn=>{
-      btn.addEventListener("click", ()=>{ newRewardDraft.childIds = null; renderNewRewardForm(); });
-    });
-    chipsWrap.querySelectorAll("[data-new-reward-child]").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        const childId = btn.getAttribute("data-new-reward-child");
-        const current = Array.isArray(newRewardDraft.childIds) ? newRewardDraft.childIds.slice() : [];
-        const idx = current.indexOf(childId);
-        if(idx === -1) current.push(childId); else current.splice(idx,1);
-        newRewardDraft.childIds = current;
-        renderNewRewardForm();
-      });
-    });
-  }
-
-  document.querySelectorAll("[data-new-reward-kind]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      newRewardDraft.kind = btn.getAttribute("data-new-reward-kind");
-      document.querySelectorAll("[data-new-reward-kind]").forEach(b=>b.classList.toggle("active", b===btn));
-      const datesRow = document.getElementById("newRewardDatesRow");
-      const isSpecial = newRewardDraft.kind === "special";
-      datesRow.style.display = isSpecial ? "flex" : "none";
-      if(isSpecial){
-        const startInput = document.getElementById("newRewardStart");
-        const endInput = document.getElementById("newRewardEnd");
-        if(!startInput.value && !endInput.value){
-          const today = new Date();
-          const inAWeek = new Date();
-          inAWeek.setDate(inAWeek.getDate()+7);
-          startInput.value = dateToKey(today);
-          endInput.value = dateToKey(inAWeek);
-        }
-      }
-    });
-  });
-
   document.getElementById("addRewardBtn").addEventListener("click", ()=>{
     const iconInput = document.getElementById("newRewardIcon");
     const labelInput = document.getElementById("newRewardLabel");
     const pointsInput = document.getElementById("newRewardPoints");
-    const startInput = document.getElementById("newRewardStart");
-    const endInput = document.getElementById("newRewardEnd");
     const label = labelInput.value.trim();
     if(!label) return;
-    const isSpecial = newRewardDraft.kind === "special";
-    state.rewards.push({
-      id: uid(),
-      label,
-      threshold: parseInt(pointsInput.value,10) || 50,
-      childIds: newRewardDraft.childIds,
-      icon: iconInput.value.trim() || "🎟️",
-      kind: newRewardDraft.kind,
-      startDate: isSpecial ? (startInput.value || null) : null,
-      endDate: isSpecial ? (endInput.value || null) : null,
-    });
+    state.rewards.push({ id: uid(), label, threshold: toInt(pointsInput.value, 50), childIds: null, icon: firstGrapheme(iconInput.value) || "🎟️" });
     labelInput.value = "";
     iconInput.value = "🎟️";
-    pointsInput.value = "50";
-    newRewardDraft = { kind:"weekly", childIds:null };
-    document.querySelectorAll("[data-new-reward-kind]").forEach(b=>b.classList.toggle("active", b.getAttribute("data-new-reward-kind")==="weekly"));
-    document.getElementById("newRewardDatesRow").style.display = "none";
-    startInput.value = "";
-    endInput.value = "";
     saveData();
     renderSettingsRewards();
     renderChildren();
@@ -1752,12 +1613,41 @@
   }
 
   document.getElementById("saveWeekSettingsBtn").addEventListener("click", ()=>{
+    const now = new Date();
+    const oldInfo = currentWeekInfo();
+    const oldKey = oldInfo.key;
+    const oldWeek = state.weeks[oldKey];
+
+    const startTime = document.getElementById("weekStartTime").value;
+    const endTime = document.getElementById("weekEndTime").value;
     state.weekSettings = {
-      startDay: parseInt(document.getElementById("weekStartDay").value, 10),
-      startTime: document.getElementById("weekStartTime").value || "00:00",
-      endDay: parseInt(document.getElementById("weekEndDay").value, 10),
-      endTime: document.getElementById("weekEndTime").value || "23:59",
+      startDay: toInt(document.getElementById("weekStartDay").value, DEFAULT_WEEK_SETTINGS.startDay),
+      startTime: isTimeStr(startTime) ? startTime : "00:00",
+      endDay: toInt(document.getElementById("weekEndDay").value, DEFAULT_WEEK_SETTINGS.endDay),
+      endTime: isTimeStr(endTime) ? endTime : "23:59",
     };
+
+    // Carry the points of the week in progress over to the week defined by the new settings,
+    // so changing the start day never makes the current points disappear.
+    // (A week that was already over stays untouched in the history.)
+    const newKey = weekKeyOf(now);
+    if(oldWeek && !oldInfo.closed && newKey !== oldKey){
+      const target = state.weeks[newKey];
+      if(!target){
+        state.weeks[newKey] = oldWeek;
+      }else{
+        Object.keys(oldWeek.entries).forEach(cid=>{
+          const from = oldWeek.entries[cid];
+          const to = target.entries[cid] || (target.entries[cid] = { total:0, log:[] });
+          to.log = to.log.concat(from.log).sort((a,b)=>new Date(a.date) - new Date(b.date));
+          to.total += from.total;
+        });
+      }
+      delete state.weeks[oldKey];
+    }
+    // the current week's dates follow the new settings; past weeks keep theirs
+    if(state.weeks[newKey]) stampWeek(state.weeks[newKey], newKey);
+    ensureCurrentWeek();
     saveData();
     renderChildren();
     renderHistory();
@@ -1787,29 +1677,6 @@
     if(tab) switchTab(tab);
   }
   function closeSettings(){ overlay.classList.remove("open"); }
-  document.querySelectorAll("[data-jump-to]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const target = document.getElementById(btn.getAttribute("data-jump-to"));
-      if(target){
-        target.scrollIntoView({behavior:"smooth", block:"center"});
-        setTimeout(()=>target.focus(), 300);
-      }
-    });
-  });
-  document.querySelectorAll("[data-sort-toggle]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const key = btn.getAttribute("data-sort-toggle");
-      sortDirections[key] = sortDirections[key] === "desc" ? "asc" : "desc";
-      if(key === "tasks") renderSettingsTasks();
-      else if(key === "behaviors") renderSettingsBehaviors();
-      else if(key === "rewards") renderSettingsRewards();
-    });
-  });
-  document.querySelectorAll("[data-scroll-top]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      overlay.scrollTo({top:0, behavior:"smooth"});
-    });
-  });
   document.getElementById("openSettings").addEventListener("click", ()=>openSettings());
   document.getElementById("emptyStateBtn").addEventListener("click", ()=>openSettings("children"));
   document.getElementById("closeSettings").addEventListener("click", closeSettings);
@@ -1861,12 +1728,10 @@
       // fallback for browsers/contexts without Clipboard API access
       backupExportArea.focus();
       backupExportArea.select();
-      try{
-        document.execCommand("copy");
-        onSuccess();
-      }catch(err){
-        flashButton(btn, "⚠️ Sélectionne et copie", "var(--coral-dark)");
-      }
+      let ok = false;
+      try{ ok = document.execCommand("copy"); }catch(err){ ok = false; }
+      if(ok) onSuccess();
+      else flashButton(btn, "⚠️ Sélectionne et copie", "var(--coral-dark)");
     };
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(text).then(onSuccess).catch(onFail);
@@ -1890,7 +1755,7 @@
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    setTimeout(()=>URL.revokeObjectURL(url), 30000);
   }
 
   document.getElementById("backupDownloadBtn").addEventListener("click", async ()=>{
@@ -1934,6 +1799,8 @@
     }
     if(!confirm("Ça va remplacer TOUTES les données actuelles (enfants, tâches, historique...) par cette sauvegarde. Continuer ?")) return;
     state = normalized;
+    stampMissingWeekRanges();
+    ensureCurrentWeek();
     saveData();
     renderSettingsChildren();
     renderSettingsTasks();
@@ -1948,12 +1815,7 @@
   }
 
   document.getElementById("backupRestoreBtn").addEventListener("click", ()=>{
-    try{
-      attemptRestore(backupImportArea.value, "Ce texte");
-    }catch(err){
-      console.error("Erreur inattendue lors de la restauration:", err);
-      alert("Une erreur inattendue est survenue pendant la restauration : " + (err && err.message ? err.message : err));
-    }
+    attemptRestore(backupImportArea.value, "Ce texte");
   });
 
   const backupFileInput = document.getElementById("backupFileInput");
@@ -1974,9 +1836,9 @@
   const pickerListEl = document.getElementById("pickerList");
   const pickerConfirmBtn = document.getElementById("pickerConfirmBtn");
   let pendingSelection = []; // array of "task:id" / "behavior:id", chosen but not yet confirmed
-  let pickerSortDir = "asc";
 
   function openPicker(childId){
+    if(currentWeekInfo().closed){ renderChildren(); return; }
     pickerTargetChild = childId;
     pickerFilter = "all";
     pickerSearch = "";
@@ -2005,8 +1867,6 @@
     if(term){
       items = items.filter(i=> i.label.toLowerCase().includes(term));
     }
-    const dirP = pickerSortDir === "desc" ? -1 : 1;
-    items.sort((a,b)=> dirP * ((a.points-b.points) || a.label.localeCompare(b.label,"fr")));
     pickerListEl.innerHTML = "";
     if(items.length === 0){
       pickerListEl.innerHTML = `<div class="picker-empty">Aucun résultat 🔍</div>`;
@@ -2048,13 +1908,16 @@
       renderPickerList();
     });
   });
-  document.getElementById("pickerSortToggle").addEventListener("click", ()=>{
-    pickerSortDir = pickerSortDir === "desc" ? "asc" : "desc";
-    renderPickerList();
-  });
   pickerConfirmBtn.addEventListener("click", ()=>{
     if(pendingSelection.length === 0 || !pickerTargetChild) return;
     const childId = pickerTargetChild;
+    const info = currentWeekInfo();
+    if(info.closed){
+      alert("La semaine est terminée 🏁 Les points pourront être ajoutés à partir du " + fmtNextStart(info.nextStart) + ".");
+      closePicker();
+      renderChildren();
+      return;
+    }
     pendingSelection.forEach(value => addLogEntry(childId, value));
     closePicker();
   });
@@ -2096,7 +1959,7 @@
         <span class="lbl">${item.icon?escapeHtml(item.icon)+" ":""}${escapeHtml(item.label)}</span>
         <span style="font-size:.68rem; color:var(--ink-soft); flex-shrink:0;">${fmtDateTime(item.date)}</span>
         <span class="pts ${cls}">${sign}${item.points}</span>
-        <button data-remove-log="${item.logId}" data-child="${child.id}" title="Annuler">✕</button>
+        <button data-remove-log="${escapeAttr(item.logId)}" data-child="${escapeAttr(child.id)}" title="Annuler" aria-label="Annuler">✕</button>
       `;
       activityListEl.appendChild(row);
     });
@@ -2114,7 +1977,6 @@
   const rewardsOverlay = document.getElementById("rewardsOverlay");
   const rewardsModalList = document.getElementById("rewardsModalList");
   const rewardsModalTitle = document.getElementById("rewardsModalTitle");
-  let rewardsTargetChild = null;
 
   function openRewards(childId){
     rewardsTargetChild = childId;
@@ -2130,17 +1992,15 @@
     const child = state.children.find(c=>c.id===rewardsTargetChild);
     if(!child) return;
     rewardsModalTitle.textContent = `🎟️ Récompenses — ${child.name}`;
-    const all = rewardsForChild(child.id);
-    const weekly = all.filter(r=>r.kind!=="special").sort((a,b)=>a.threshold-b.threshold);
-    const special = all.filter(r=>r.kind==="special").sort((a,b)=>(a.startDate||"").localeCompare(b.startDate||""));
-    if(all.length === 0){
+    const curKey = state.currentWeekKey;
+    const total = (state.weeks[curKey] && state.weeks[curKey].entries[child.id] && state.weeks[curKey].entries[child.id].total) || 0;
+    const sorted = rewardsForChild(child.id).slice().sort((a,b)=>a.threshold-b.threshold);
+    if(sorted.length === 0){
       rewardsModalList.innerHTML = `<div class="picker-empty">Aucune récompense configurée. Ajoutes-en dans Réglages > Récompenses.</div>`;
       return;
     }
     rewardsModalList.innerHTML = "";
-
-    function buildWeeklyChip(r){
-      const total = rewardTotalForChild(r, child.id);
+    sorted.forEach(r=>{
       const unlocked = total >= r.threshold;
       const pct = r.threshold > 0 ? Math.max(0, Math.min(100, (total/r.threshold)*100)) : 100;
       const chip = document.createElement("div");
@@ -2152,46 +2012,8 @@
         </div>
         <div class="chip-bar"><div class="chip-bar-fill" style="width:${pct}%;"></div></div>
       `;
-      return chip;
-    }
-
-    function buildSpecialChip(r){
-      const total = rewardTotalForChild(r, child.id);
-      const unlocked = total >= r.threshold;
-      const pct = r.threshold > 0 ? Math.max(0, Math.min(100, (total/r.threshold)*100)) : 100;
-      const status = specialRewardStatus(r);
-      const statusLabel = status === "upcoming" ? "À venir" : status === "past" ? "Terminée" : status === "current" ? "En cours" : "";
-      const dateRange = (r.startDate && r.endDate) ? `${fmtDateOnly(r.startDate)} → ${fmtDateOnly(r.endDate)}` : "Dates non définies";
-      const chip = document.createElement("div");
-      chip.className = "reward-chip special" + (unlocked ? " unlocked" : "");
-      chip.innerHTML = `
-        <div class="reward-chip-top">
-          <span>${escapeHtml(r.icon||'🎉')} ${unlocked?'<span class="tick">✓</span> ':''}${escapeHtml(r.label)}</span>
-          <span class="chip-progress">${r.threshold}pt${unlocked?'':' (encore '+(r.threshold-total)+')'}</span>
-        </div>
-        <div class="chip-bar"><div class="chip-bar-fill" style="width:${pct}%;"></div></div>
-        <div style="margin-top:8px; display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-size:.72rem; color:var(--ink-soft);">${dateRange}</span>
-          ${statusLabel ? `<span class="special-status ${status}">${statusLabel}</span>` : ''}
-        </div>
-      `;
-      return chip;
-    }
-
-    if(weekly.length){
-      const h = document.createElement("div");
-      h.style.cssText = "font-size:.75rem; font-weight:800; color:var(--ink-soft); margin-bottom:2px;";
-      h.textContent = "📅 Cette semaine";
-      rewardsModalList.appendChild(h);
-      weekly.forEach(r=>rewardsModalList.appendChild(buildWeeklyChip(r)));
-    }
-    if(special.length){
-      const h = document.createElement("div");
-      h.style.cssText = "font-size:.75rem; font-weight:800; color:var(--ink-soft); margin-top:14px; margin-bottom:2px;";
-      h.textContent = "🎉 Récompenses exceptionnelles";
-      rewardsModalList.appendChild(h);
-      special.forEach(r=>rewardsModalList.appendChild(buildSpecialChip(r)));
-    }
+      rewardsModalList.appendChild(chip);
+    });
   }
 
   document.getElementById("closeRewards").addEventListener("click", closeRewards);
@@ -2227,7 +2049,22 @@
     });
   }
 
+  /* ================= auto-refresh when the week starts or ends ================= */
+  function refreshIfWeekChanged(){
+    if(weekStatusSignature() === lastWeekSignature) return;
+    ensureCurrentWeek();
+    saveData();
+    renderChildren();
+    renderHistory();
+    if(activityTargetChild) renderActivityList();
+    if(rewardsTargetChild) renderRewardsModal();
+    if(pickerTargetChild && currentWeekInfo().closed) closePicker();
+  }
+  setInterval(refreshIfWeekChanged, 30000);
+  document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) refreshIfWeekChanged(); });
+
   /* ================= init ================= */
+  stampMissingWeekRanges();
   ensureCurrentWeek();
   saveData();
   renderChildren();
